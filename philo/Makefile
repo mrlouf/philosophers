@@ -6,7 +6,8 @@ NAME		= 	philo
 
 # -=-=-=-=-    FILES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
-SRC			=	philo.c
+SRC			=	philo.c		\
+				utils.c
 
 HEADER		=	philo.h
 
