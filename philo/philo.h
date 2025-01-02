@@ -4,6 +4,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
 
 typedef struct s_dinner
 {
@@ -11,14 +14,19 @@ typedef struct s_dinner
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
-	int	number_of_meal;
+	int	optional_meals;
+	int	number_of_meals;
 } t_dinner;
 
+//	DINING
 int 	ph_check_args(int ac, char **av);
 void	ph_init_dinner(int ac, char **av);
 
 //	UTILS
 int		ft_is_integer(const char *str);
 int		ft_atoi(const char *str);
+
+//	DEBUG
+void	ph_print_dinner(t_dinner *dinner);
 
 #endif

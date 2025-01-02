@@ -28,8 +28,7 @@ int ph_check_args(int ac, char **av)
 
 void    ph_start_dinner(t_dinner *dinner)
 {
-    (void)dinner;
-    printf("starting dinner\n");
+    ph_print_dinner(dinner);
 }
 
 void    ph_init_dinner(int ac, char **av)
@@ -41,9 +40,15 @@ void    ph_init_dinner(int ac, char **av)
     dinner.time_to_eat = ft_atoi(av[3]);
     dinner.time_to_sleep = ft_atoi(av[4]);
     if (ac == 6)
-        dinner.number_of_meal = ft_atoi(av[5]);
+    {
+        dinner.optional_meals = 1;
+        dinner.number_of_meals = ft_atoi(av[5]);
+    }
     else
-        dinner.number_of_meal = 0;
+    {
+        dinner.optional_meals = 0;
+        dinner.number_of_meals = 0;
+    }
     ph_start_dinner(&dinner);
 }
 

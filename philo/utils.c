@@ -1,6 +1,18 @@
 #include "philo.h"
 
 /*
+	A debug function that prints all the data pertaining to the dinner.
+*/
+void	ph_print_dinner(t_dinner *dinner)
+{
+	printf("Dining with %d philos, dying in %d ms, eating for %d, sleeping for %d", \
+		dinner->guests, dinner->time_to_die, dinner->time_to_eat, dinner->time_to_sleep);
+	if (dinner->number_of_meals > 0)
+		printf(", eating %d meals", dinner->number_of_meals);
+	printf("\n");
+}
+
+/*
 	Checks if a string is a valid integer, ie. if it only contains numbers.
 */
 int	ft_is_integer(const char *str)
