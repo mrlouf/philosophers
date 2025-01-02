@@ -1,12 +1,21 @@
 #include "philo.h"
 
+int ph_check_args(int ac, char **av)
+{
+    int i;
+
+    i = -1;
+    while (++i < ac)
+    {
+        
+    }
+}
+
 int main(int ac, char **av)
 {
     (void)av;
-    if (ac >= 5 && ac <= 6)
-    {
-        printf("execute program\n");
-    }
+    if (ac >= 5 && ac <= 6 && ph_check_args(ac, av))
+        ph_start_dinner();
     else
     {
         printf("Correct usage: ");
