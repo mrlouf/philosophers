@@ -30,7 +30,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJ) $(SRC)
-	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(INCLUDE) -o $(NAME)
 
 clean:
 	/bin/rm -f $(OBJ)
