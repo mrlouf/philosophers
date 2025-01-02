@@ -18,7 +18,7 @@ OBJ		=	$(SRC:%.c=%.o)
 
 CC			=	-cc
 
-CFLAGS		=	-Werror -Wextra -Wall -g -pthread #-fsanitize=address 
+CFLAGS		=	-Werror -Wextra -Wall -g -pthread -fsanitize=address 
 
 INCLUDE		=	-I.
 
