@@ -13,7 +13,9 @@ HEADER		=	philo.h
 
 MAKE		=	Makefile
 
-OBJ		=	$(SRC:%.c=%.o)
+OBJDIR		= 	.obj
+
+OBJS		= 	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 # -=-=-=-=-    FLAGS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
 
@@ -27,14 +29,15 @@ INCLUDE		=	-I.
 
 all: $(NAME)
 
-%.o: %.c $(HEADER) Makefile
+$(OBJDIR)/%.o: %.c $(HEADER) Makefile
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-$(NAME): $(OBJ) $(SRC)
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDE) -o $(NAME)
+$(NAME): $(OBJS) $(SRC)
+	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) -o $(NAME)
 
 clean:
-	/bin/rm -f $(OBJ)
+	/bin/rm -fr $(OBJDIR)
 
 fclean: clean
 	/bin/rm -f $(NAME)
