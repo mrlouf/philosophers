@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/15 14:48:52 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:01:00 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ph_print_dinner(t_dinner *dinner)
 {
 	printf("Dining with %d philos, dying in %d ms, \
 eating for %d, sleeping for %d", \
-		dinner->guests, dinner->time_to_die, \
+		dinner->nb_guests, dinner->time_to_die, \
 		dinner->time_to_eat, dinner->time_to_sleep);
 	if (dinner->number_of_meals > 0)
 		printf(", eating %d meals", dinner->number_of_meals);
@@ -44,7 +44,7 @@ void	ph_print_usage(void)
 /*
 	Checks if a string is a valid integer, ie. if it only contains numbers.
 */
-int	ft_is_integer(const char *str)
+int	ph_is_integer(const char *str)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ int	ft_is_integer(const char *str)
 	return (1);
 }
 
-int	ft_atoi(const char *str)
+int	ph_atoi(const char *str)
 {
 	int	nbr;
 	int	sign;

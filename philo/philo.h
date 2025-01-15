@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/15 14:41:48 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:03:51 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,30 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+typedef struct s_philo
+{
+	pthread_t	fork;
+}	t_philo;
+
 typedef struct s_dinner
 {
-	int	guests;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	optional_meals;
-	int	number_of_meals;
+	int		nb_guests;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		optional_meals;
+	int		number_of_meals;
+	t_philo	*guests;
 }	t_dinner;
 
 //	DINING
 int		ph_check_args(int ac, char **av);
 void	ph_init_dinner(int ac, char **av);
+void	*ph_routine(void *i);
 
 //	UTILS
-int		ft_is_integer(const char *str);
-int		ft_atoi(const char *str);
+int		ph_is_integer(const char *str);
+int		ph_atoi(const char *str);
 
 //	DEBUG
 void	ph_print_usage(void);

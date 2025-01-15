@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:34:53 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/15 14:41:57 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:15:25 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	ph_check_args(int ac, char **av)
 	av++;
 	while (++i < ac)
 	{
-		if (!ft_is_integer(av[i]))
+		if (!ph_is_integer(av[i]))
 			return (1);
-		tmp = ft_atoi(av[i]);
+		tmp = ph_atoi(av[i]);
 		if (!i && (tmp < 1 || tmp > 200))
 			return (1);
 		else if (i == 4 && (tmp < 0 || tmp > INT_MAX))
@@ -40,21 +40,44 @@ int	ph_check_args(int ac, char **av)
 
 void	ph_start_dinner(t_dinner *dinner)
 {
+	int	i;
+
 	ph_print_dinner(dinner);
+	dinner->guests = (t_philo *)malloc(sizeof(t_philo) * dinner->nb_guests);
+	if (!dinner->guests)
+		return ;
+	i = -1;
+	while (++i < dinner->nb_guests)
+	{
+		if (pthread_create (&dinner->guests[i].fork, 0, ph_routine, &i))
+			return ;
+	}
+	sleep(2);
+	free(dinner->guests);
+}
+
+void	*ph_routine(void *p_data)
+{
+	size_t	i;
+
+	i = (size_t)p_data;
+	printf("Philosopher (thread) #%lu created\n", i);
+	return (p_data);
 }
 
 void	ph_init_dinner(int ac, char **av)
 {
 	t_dinner	dinner;
 
-	dinner.guests = ft_atoi(av[1]);
-	dinner.time_to_die = ft_atoi(av[2]);
-	dinner.time_to_eat = ft_atoi(av[3]);
-	dinner.time_to_sleep = ft_atoi(av[4]);
+	dinner.nb_guests = ph_atoi(av[1]);
+	dinner.guests = NULL;
+	dinner.time_to_die = ph_atoi(av[2]);
+	dinner.time_to_eat = ph_atoi(av[3]);
+	dinner.time_to_sleep = ph_atoi(av[4]);
 	if (ac == 6)
 	{
 		dinner.optional_meals = 1;
-		dinner.number_of_meals = ft_atoi(av[5]);
+		dinner.number_of_meals = ph_atoi(av[5]);
 	}
 	else
 	{
