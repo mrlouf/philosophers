@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:34:53 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/15 18:15:25 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:30:06 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ph_start_dinner(t_dinner *dinner)
 		if (pthread_create (&dinner->guests[i].fork, 0, ph_routine, &i))
 			return ;
 	}
-	sleep(2);
+	sleep(1);
 	free(dinner->guests);
 }
 
