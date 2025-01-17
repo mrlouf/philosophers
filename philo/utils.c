@@ -6,11 +6,23 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 10:10:52 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:28:54 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	Used to free all pointers after the simulation has stopped.
+*/
+void	ph_clean_dinner(t_dinner *dinner)
+{
+	sleep(1);
+	free(dinner->philos);
+	free(dinner->forks);
+	free(dinner->philos_th);
+	return ;
+}
 
 /*
 	Checks if a string is a valid integer, ie. if it only contains numbers.

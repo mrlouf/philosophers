@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:34:53 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 13:39:55 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:34:20 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	ph_start_dinner(t_dinner *dinner)
 {
 	int	i;
 
-	ph_print_dinner(dinner);
 	dinner->philos_th = malloc(sizeof(pthread_t) * dinner->nb_philos);
 	if (!dinner->philos_th)
 		return (ph_print_err("Error malloc-ing philo_th"));
@@ -34,12 +33,12 @@ int	ph_start_dinner(t_dinner *dinner)
 			&ph_routine, (void *)&dinner->philos[i]))
 			return (ph_print_err("Error creating philo_th"));
 		if (pthread_detach(dinner->philos_th[i]))
-			return (ph_print_err("Error detaching philo"));
+			return (ph_print_err("Error detaching philo_th"));
 	}
 	if (pthread_create(&dinner->monitor, 0, \
 		&ph_monitor, (void *)&dinner->philos[i]))
 		return (ph_print_err("Error creating philo_th"));
 	pthread_join(dinner->monitor, 0);
-	free(dinner->philos);
+	ph_clean_dinner(dinner);
 	return (0);
 }

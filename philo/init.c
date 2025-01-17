@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 13:52:15 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:35:43 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ph_init_forks(t_dinner *dinner)
 /*
 	Initialises each t_philo structure with the necessary information
 	for each thread to complete the simulation.
+	Forks are assigned so that the last philo shares its left fork
+	as the right fork from the first philo to close the table.
 */
 int	ph_init_philos(t_dinner *dinner)
 {
@@ -38,7 +40,7 @@ int	ph_init_philos(t_dinner *dinner)
 
 	dinner->philos = malloc(sizeof(t_philo) * dinner->nb_philos);
 	if (!dinner->philos)
-		return (ph_print_err("Malloc failed"));
+		return (ph_print_err("Error malloc-ing philos"));
 	i = -1;
 	while (++i < dinner->nb_philos)
 	{
@@ -47,7 +49,7 @@ int	ph_init_philos(t_dinner *dinner)
 		if (i != dinner->nb_philos - 1)
 			dinner->philos[i].l_fork = dinner->forks[i + 1];
 		else
-			dinner->philos[i - 1].l_fork = dinner->forks[0];
+			dinner->philos[i].l_fork = dinner->forks[0];
 	}
 	return (0);
 }
@@ -65,11 +67,12 @@ void	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 	if (ac == 6)
 		dinner->n_meals = ph_atoll(av[5]);
 	else
-		dinner->n_meals = INT_MAX;
+		dinner->n_meals = 0;
 	dinner->dead_philo = 0;
 	dinner->start = 0;
 	dinner->monitor = 0;
 	dinner->philos_th = NULL;
+	dinner->forks = NULL;
 	dinner->philos = NULL;
 }
 
