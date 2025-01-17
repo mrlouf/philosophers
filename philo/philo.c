@@ -6,95 +6,106 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:34:53 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 07:58:30 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 12:15:48 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-    Checks that all the arguments are positive, valid integers,
-    and that av[0] (the number of philos) is within 1-200 range.
+	Starts the simulation and stops if:
+	- A philo starves
+	- Each philo eats the required number of meals (dinner->n_meals),
+	if specified by av[5]
 */
-int	ph_check_args(int ac, char **av)
-{
-	int	i;
-	int	tmp;
-
-	i = -1;
-	av++;
-	while (++i < ac)
-	{
-		if (!ph_is_integer(av[i]))
-			return (1);
-		tmp = ph_atoll(av[i]);
-		if (!i && (tmp < 1 || tmp > 200))
-			return (1);
-		else if (i == 4 && (tmp < 0 || tmp > INT_MAX))
-			return (1);
-		else if (i && i < 4 && (tmp < 60 || tmp > INT_MAX))
-			return (1);
-	}
-	return (0);
-}
-
-void	ph_start_dinner(t_dinner *dinner)
+int	ph_start_dinner(t_dinner *dinner)
 {
 	int	i;
 
 	ph_print_dinner(dinner);
-	dinner->guests = (t_philo *)malloc(sizeof(t_philo) * dinner->nb_guests);
-	if (!dinner->guests)
-		return ;
 	i = -1;
-	while (++i < dinner->nb_guests)
+	while (++i < dinner->nb_philos)
 	{
-		if (pthread_create (&dinner->guests[i].fork, 0, ph_routine, &i))
-			return ;
+		dinner->philos[i].id = i;
+		if (pthread_create(&dinner->philos_th[i], 0, \
+			&ph_routine, (void *)&dinner->philos[i]))
+			return (ph_print_err("Error creating philo_th"));
+		if (pthread_detach(dinner->philos_th[i]))
+			return (ph_print_err("Error detaching philo"));
 	}
-	sleep(1);
-	free(dinner->guests);
+	if (pthread_create(&dinner->monitor, 0, \
+		&ph_monitor, (void *)&dinner->philos[i]))
+		return (ph_print_err("Error creating philo_th"));
+	pthread_join(dinner->monitor, 0);
+	free(dinner->philos);
+	return (0);
 }
 
-void	*ph_routine(void *p_data)
+void	*ph_monitor(void *data)
 {
-	size_t	i;
+	t_dinner	*dinner;
 
-	i = (size_t)p_data;
-	printf("Philosopher (thread) #%lu created\n", i);
-	return (p_data);
+	dinner = (t_dinner *)data;
+	while (!dinner->dead_philo)
+		;
+	printf("One philosopher died\n");
+	return (NULL);
 }
 
-void	ph_init_dinner(int ac, char **av)
+/*
+	The dining routine for each philosopher: eat, think, sleep, repeat.
+	TODO
+	- implement the routine
+*/
+void	*ph_routine(void *data)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)data;
+	printf("Philosopher (thread) #%i created\n", philo->id);
+	return (NULL);
+}
+
+/*
+	Initialises each t_philo structure with the necessary information
+	for each thread to complete the simulation.
+*/
+int	ph_init_philos(t_dinner *dinner)
+{
+	int	i;
+
+	dinner->philos = malloc(sizeof(t_philo) * dinner->nb_philos);
+	if (!dinner->philos)
+		return (ph_print_err("Malloc failed"));
+	i = -1;
+	while (++i < dinner->nb_philos)
+	{
+		dinner->philos[i].id = i;
+		dinner->philos[i].dinner = dinner;
+	}
+	return (0);
+}
+
+/*
+	Initialises the t_dinner structure with the necessary information
+	to launch the simulation.
+*/
+int	ph_init_dinner(int ac, char **av)
 {
 	t_dinner	dinner;
 
-	dinner.nb_guests = ph_atoll(av[1]);
-	dinner.guests = NULL;
-	dinner.time_to_die = ph_atoll(av[2]);
-	dinner.time_to_eat = ph_atoll(av[3]);
-	dinner.time_to_sleep = ph_atoll(av[4]);
+	memset(&dinner, 0, sizeof(t_dinner));
+	dinner.nb_philos = ph_atoll(av[1]);
+	dinner.philos = NULL;
+	dinner.t_die = ph_atoll(av[2]);
+	dinner.t_eat = ph_atoll(av[3]);
+	dinner.t_sleep = ph_atoll(av[4]);
+	dinner.dead_philo = 0;
 	if (ac == 6)
-	{
-		dinner.optional_meals = 1;
-		dinner.number_of_meals = ph_atoll(av[5]);
-	}
+		dinner.n_meals = ph_atoll(av[5]);
 	else
-	{
-		dinner.optional_meals = 0;
-		dinner.number_of_meals = 0;
-	}
-	ph_start_dinner(&dinner);
-}
-
-int	main(int ac, char **av)
-{
-	if (ac >= 5 && ac <= 6 && !ph_check_args(ac - 1, av))
-		ph_init_dinner(ac, av);
-	else
-	{
-		ph_print_usage();
+		dinner.n_meals = INT_MAX;
+	if (ph_init_philos(&dinner) || ph_start_dinner(&dinner))
 		return (1);
-	}
 	return (0);
 }

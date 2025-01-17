@@ -6,8 +6,10 @@ NAME		= 	philo
 
 # -=-=-=-=-    FILES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
-SRC			=	philo.c		\
-				utils.c
+SRC			=	main.c		\
+				philo.c		\
+				utils.c		\
+				prints.c
 
 HEADER		=	philo.h
 
@@ -21,7 +23,7 @@ OBJS		= 	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 CC			=	-cc
 
-CFLAGS		=	-Werror -Wextra -Wall -pthread -g -fsanitize=address
+CFLAGS		=	-Werror -Wextra -Wall -pthread -g -fsanitize=address #-fsanitize=thread
 
 INCLUDE		=	-I.
 
