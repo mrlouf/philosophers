@@ -6,11 +6,23 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 14:51:49 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:42:36 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	Waiting function that take a long int for milliseconds and converts it
+	to microseconds to call usleep.
+*/
+int	ph_wait(long int ms)
+{
+	long int	us;
+
+	us = ms * 1000;
+	return (usleep(us));
+}
 
 /*
 	Used to free all pointers after the simulation has stopped.

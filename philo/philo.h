@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 15:40:09 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:51:40 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_dinner
 	long long		start;
 	pthread_t		monitor;
 	pthread_t		*philos_th;
+	pthread_mutex_t	init;
 	pthread_mutex_t	print;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
@@ -60,13 +61,14 @@ void	*ph_routine(void *i);
 void	*ph_monitor(void *data);
 
 //	UTILS
+int		ph_wait(long int milliseconds);
+long	ph_gettime(void);
 int		ph_is_integer(const char *str);
 int		ph_atoll(const char *str);
 void	ph_clean_dinner(t_dinner *dinner);
 
 //	PRINTS && DEBUG
 int		ph_print_err(char *str);
-void	ph_print_tod(void);
 int		ph_print_usage(void);
 void	ph_print_dinner(t_dinner *dinner);
 

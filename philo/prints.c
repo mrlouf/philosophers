@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 15:41:07 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:08:58 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,10 @@ int	ph_print_usage(void)
 /*
 	Debug function to print the time of the day in seconds and milliseconds.
 */
-void	ph_print_tod(void)
+long	ph_gettime(void)
 {
 	struct timeval	current_time;
 
 	gettimeofday(&current_time, NULL);
-	printf("seconds : %lu\nmicro seconds : %lu\n", \
-	current_time.tv_sec, current_time.tv_usec);
-	printf("Current time: %lu\n", \
-		(current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }

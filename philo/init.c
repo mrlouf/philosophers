@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 16:26:59 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:47:31 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 	dinner->philos_th = NULL;
 	dinner->forks = NULL;
 	dinner->philos = NULL;
+	if (pthread_mutex_init(&dinner->init, NULL))
+		return (ph_print_err("Error creating init-mutex"));
 	if (pthread_mutex_init(&dinner->print, NULL))
 		return (ph_print_err("Error creating print-mutex"));
 	return (0);
