@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 19:02:43 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:20:57 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ph_check_status(t_dinner *dinner)
 		else if (i + 1 == dinner->n_meals)
 		{
 			pthread_mutex_unlock(&dinner->status);
-			ph_print_complete();
+			ph_print_complete(dinner);
 			return (1);
 		}
 	}

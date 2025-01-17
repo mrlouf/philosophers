@@ -6,14 +6,15 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 19:08:14 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:38:04 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ph_print_complete(void)
+void	ph_print_complete(t_dinner *dinner)
 {
+	pthread_mutex_lock(&dinner->print);
 	printf("\n");
 	printf("Dinner completed!\n");
 	printf("\n");
@@ -21,13 +22,14 @@ void	ph_print_complete(void)
 	printf("to survive is to find meaning in the suffering.\n");
 	printf("\n");
 	printf("Friederich Nietzsche\n");
+	pthread_mutex_unlock(&dinner->print);
 }
 
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
 	pthread_mutex_lock(&dinner->print);
 	printf("[%llu] ", ph_gettime() - dinner->start);
-	printf("%d ", id);
+	printf("%d ", id + 1);
 	printf("%s\n", str);
 	pthread_mutex_unlock(&dinner->print);
 }

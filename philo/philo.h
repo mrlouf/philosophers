@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 19:06:41 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:20:52 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		ph_clean_dinner(t_dinner *dinner);
 
 //	PRINTS && DEBUG
 void		ph_print_status(t_dinner *dinner, char *str, int id);
-void		ph_print_complete(void);
+void		ph_print_complete(t_dinner *dinner);
 int			ph_print_err(char *str);
 int			ph_print_usage(void);
 void		ph_print_dinner(t_dinner *dinner);
