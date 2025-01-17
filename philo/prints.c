@@ -6,11 +6,20 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 17:08:58 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:40:43 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ph_print_status(t_dinner *dinner, char *str, int id)
+{
+	pthread_mutex_lock(&dinner->print);
+	printf("[%lu] ", ph_gettime());
+	printf("%d ", id);
+	printf("%s\n", str);
+	pthread_mutex_unlock(&dinner->print);
+}
 
 /*
 	Prints an error message and returns 1.
@@ -51,15 +60,4 @@ int	ph_print_usage(void)
 	printf("time_to_sleep (60-INT_MAX) ");
 	printf("[optional: meals_per_each_philosopher (0-INT_MAX)]\n");
 	return (1);
-}
-
-/*
-	Debug function to print the time of the day in seconds and milliseconds.
-*/
-long	ph_gettime(void)
-{
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }

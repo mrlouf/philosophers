@@ -6,11 +6,22 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 16:42:36 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:33:53 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	Gets the time of the day in seconds and milliseconds.
+*/
+long	ph_gettime(void)
+{
+	struct timeval	current_time;
+
+	gettimeofday(&current_time, NULL);
+	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
+}
 
 /*
 	Waiting function that take a long int for milliseconds and converts it
@@ -22,23 +33,6 @@ int	ph_wait(long int ms)
 
 	us = ms * 1000;
 	return (usleep(us));
-}
-
-/*
-	Used to free all pointers after the simulation has stopped.
-*/
-void	ph_clean_dinner(t_dinner *dinner)
-{
-	int	i;
-
-	i = -1;
-	sleep(1);
-	while (++i < dinner->nb_philos)
-		pthread_mutex_destroy(&dinner->forks[i]);
-	free(dinner->philos);
-	free(dinner->forks);
-	free(dinner->philos_th);
-	return ;
 }
 
 /*

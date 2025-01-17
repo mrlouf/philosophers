@@ -6,11 +6,28 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 17:13:08 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:22:32 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	Used to free all pointers after the simulation has stopped.
+*/
+void	ph_clean_dinner(t_dinner *dinner)
+{
+	int	i;
+
+	i = -1;
+	sleep(1);
+	while (++i < dinner->nb_philos)
+		pthread_mutex_destroy(&dinner->forks[i]);
+	free(dinner->philos);
+	free(dinner->forks);
+	free(dinner->philos_th);
+	return ;
+}
 
 /*
 	Starts the simulation and stops if:
