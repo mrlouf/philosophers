@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 14:35:43 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:39:08 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	ph_init_philos(t_dinner *dinner)
 }
 
 /*
-	Initialises the t_dinner structure with the necessary information
-	to launch the simulation.
+	Initialises the t_dinner structure with the user input and sets
+	the rest to NULL.
 */
 void	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 {
