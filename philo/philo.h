@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/15 18:03:51 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 07:50:12 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	*ph_routine(void *i);
 
 //	UTILS
 int		ph_is_integer(const char *str);
-int		ph_atoi(const char *str);
+int		ph_atoll(const char *str);
 
-//	DEBUG
+//	PRINTS && DEBUG
 void	ph_print_usage(void);
 void	ph_print_dinner(t_dinner *dinner);
 

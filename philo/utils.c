@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/15 16:01:00 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 07:54:42 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int	ph_is_integer(const char *str)
 	int	i;
 
 	i = -1;
-	while (str[++i] != 0)
+	if (str[0] == '-' || str[0] == '+')
+		i++;
+	while (str[++i])
 	{
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
@@ -57,10 +59,10 @@ int	ph_is_integer(const char *str)
 	return (1);
 }
 
-int	ph_atoi(const char *str)
+int	ph_atoll(const char *str)
 {
-	int	nbr;
-	int	sign;
+	long long	nbr;
+	int			sign;
 
 	nbr = 0;
 	sign = 1;

@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:34:53 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/16 17:30:06 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 07:58:30 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ph_check_args(int ac, char **av)
 	{
 		if (!ph_is_integer(av[i]))
 			return (1);
-		tmp = ph_atoi(av[i]);
+		tmp = ph_atoll(av[i]);
 		if (!i && (tmp < 1 || tmp > 200))
 			return (1);
 		else if (i == 4 && (tmp < 0 || tmp > INT_MAX))
@@ -69,15 +69,15 @@ void	ph_init_dinner(int ac, char **av)
 {
 	t_dinner	dinner;
 
-	dinner.nb_guests = ph_atoi(av[1]);
+	dinner.nb_guests = ph_atoll(av[1]);
 	dinner.guests = NULL;
-	dinner.time_to_die = ph_atoi(av[2]);
-	dinner.time_to_eat = ph_atoi(av[3]);
-	dinner.time_to_sleep = ph_atoi(av[4]);
+	dinner.time_to_die = ph_atoll(av[2]);
+	dinner.time_to_eat = ph_atoll(av[3]);
+	dinner.time_to_sleep = ph_atoll(av[4]);
 	if (ac == 6)
 	{
 		dinner.optional_meals = 1;
-		dinner.number_of_meals = ph_atoi(av[5]);
+		dinner.number_of_meals = ph_atoll(av[5]);
 	}
 	else
 	{
