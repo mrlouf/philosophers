@@ -7,7 +7,6 @@ NAME		= 	philo
 # -=-=-=-=-    FILES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
 SRC			=	main.c		\
-				philo.c		\
 				init.c		\
 				routines.c	\
 				utils.c		\

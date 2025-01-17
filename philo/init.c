@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 14:39:08 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:35:06 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ int	ph_init_philos(t_dinner *dinner)
 	while (++i < dinner->nb_philos)
 	{
 		dinner->philos[i].id = i;
+		dinner->philos[i].last_meal = 0;
 		dinner->philos[i].r_fork = dinner->forks[i];
 		if (i != dinner->nb_philos - 1)
 			dinner->philos[i].l_fork = dinner->forks[i + 1];
 		else
 			dinner->philos[i].l_fork = dinner->forks[0];
+		dinner->live_philos++;
 	}
 	return (0);
 }
@@ -58,7 +60,7 @@ int	ph_init_philos(t_dinner *dinner)
 	Initialises the t_dinner structure with the user input and sets
 	the rest to NULL.
 */
-void	ph_init_dinner(int ac, char **av, t_dinner *dinner)
+int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 {
 	dinner->nb_philos = ph_atoll(av[1]);
 	dinner->t_die = ph_atoll(av[2]);
@@ -68,12 +70,16 @@ void	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 		dinner->n_meals = ph_atoll(av[5]);
 	else
 		dinner->n_meals = 0;
+	dinner->live_philos = 0;
 	dinner->dead_philo = 0;
 	dinner->start = 0;
 	dinner->monitor = 0;
 	dinner->philos_th = NULL;
 	dinner->forks = NULL;
 	dinner->philos = NULL;
+	if (pthread_mutex_init(&dinner->print, NULL))
+		return (ph_print_err("Error creating print-mutex"));
+	return (0);
 }
 
 /*
@@ -86,7 +92,8 @@ int	ph_init_simulation(int ac, char **av)
 	t_dinner	dinner;
 
 	memset(&dinner, 0, sizeof(t_dinner));
-	ph_init_dinner(ac, av, &dinner);
+	if (ph_init_dinner(ac, av, &dinner))
+		return (1);
 	if (ph_init_forks(&dinner))
 		return (1);
 	if (ph_init_philos(&dinner))

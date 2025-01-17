@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 14:19:55 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:34:18 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 void	*ph_monitor(void *data)
 {
-	(void)data;
-	printf("Monitor finished\n");
+	t_dinner	*dinner;
+
+	dinner = (t_dinner *)data;
+	while (dinner->live_philos < dinner->nb_philos)
+		usleep(10);
+	printf("Number of live philos: %d\n", dinner->live_philos);
 	return (NULL);
 }
 
@@ -30,5 +34,7 @@ void	*ph_routine(void *data)
 
 	philo = (t_philo *)data;
 	printf("Philosopher (thread) #%i created\n", philo->id);
+	if (philo->id == 9)
+		usleep(1000);
 	return (NULL);
 }
