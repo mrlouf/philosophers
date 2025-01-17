@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 16:47:31 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:30:11 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ph_init_philos(t_dinner *dinner)
 	{
 		dinner->philos[i].id = i;
 		dinner->philos[i].last_meal = 0;
+		dinner->philos[i].meals = 0;
 		dinner->philos[i].r_fork = dinner->forks[i];
 		if (i != dinner->nb_philos - 1)
 			dinner->philos[i].l_fork = dinner->forks[i + 1];
@@ -62,7 +63,7 @@ int	ph_init_philos(t_dinner *dinner)
 
 /*
 	Initialises the t_dinner structure with the user input and sets
-	the rest to NULL.
+	the rest to NULL, initialises the dinner mutexes.
 */
 int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 {
@@ -70,19 +71,20 @@ int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 	dinner->t_die = ph_atoll(av[2]);
 	dinner->t_eat = ph_atoll(av[3]);
 	dinner->t_sleep = ph_atoll(av[4]);
+	dinner->n_meals = 0;
 	if (ac == 6)
 		dinner->n_meals = ph_atoll(av[5]);
-	else
-		dinner->n_meals = 0;
 	dinner->live_philos = 0;
 	dinner->dead_philo = 0;
-	dinner->start = 0;
+	dinner->start = ph_gettime();
 	dinner->monitor = 0;
 	dinner->philos_th = NULL;
 	dinner->forks = NULL;
 	dinner->philos = NULL;
 	if (pthread_mutex_init(&dinner->init, NULL))
 		return (ph_print_err("Error creating init-mutex"));
+	if (pthread_mutex_init(&dinner->status, NULL))
+		return (ph_print_err("Error creating status-mutex"));
 	if (pthread_mutex_init(&dinner->print, NULL))
 		return (ph_print_err("Error creating print-mutex"));
 	return (0);

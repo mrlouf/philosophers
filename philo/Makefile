@@ -9,6 +9,7 @@ NAME		= 	philo
 SRC			=	main.c		\
 				init.c		\
 				routines.c	\
+				checks.c	\
 				utils.c		\
 				prints.c
 

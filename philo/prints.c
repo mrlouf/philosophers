@@ -6,16 +6,27 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 17:40:43 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:08:14 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	ph_print_complete(void)
+{
+	printf("\n");
+	printf("Dinner completed!\n");
+	printf("\n");
+	printf("To live is to suffer,\n");
+	printf("to survive is to find meaning in the suffering.\n");
+	printf("\n");
+	printf("Friederich Nietzsche\n");
+}
+
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
 	pthread_mutex_lock(&dinner->print);
-	printf("[%lu] ", ph_gettime());
+	printf("[%llu] ", ph_gettime() - dinner->start);
 	printf("%d ", id);
 	printf("%s\n", str);
 	pthread_mutex_unlock(&dinner->print);
