@@ -6,12 +6,16 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 15:35:06 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:26:59 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+	Initialises all the forks (mutexes) to be put at the table,
+	that is as many as there are philosophers.
+*/
 int	ph_init_forks(t_dinner *dinner)
 {
 	int	i;
@@ -51,7 +55,7 @@ int	ph_init_philos(t_dinner *dinner)
 			dinner->philos[i].l_fork = dinner->forks[i + 1];
 		else
 			dinner->philos[i].l_fork = dinner->forks[0];
-		dinner->live_philos++;
+		dinner->philos[i].dinner = dinner;
 	}
 	return (0);
 }

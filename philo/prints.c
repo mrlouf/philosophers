@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 15:26:23 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:41:07 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ eating for %d, sleeping for %d", \
 }
 
 /*
-	A debug function that prints all the data pertaining to the dinner.
+	A debug function that prints all the data pertaining to the dinner and
+	returns 1.
 */
-void	ph_print_usage(void)
+int	ph_print_usage(void)
 {
 	printf("Correct usage: ");
 	printf("./philo ");
@@ -49,7 +50,7 @@ void	ph_print_usage(void)
 	printf("time_to_eat (60-INT_MAX) ");
 	printf("time_to_sleep (60-INT_MAX) ");
 	printf("[optional: meals_per_each_philosopher (0-INT_MAX)]\n");
-	return ;
+	return (1);
 }
 
 /*
