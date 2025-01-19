@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 22:47:50 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 23:09:15 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ int	ph_lone_philo(t_philo *philo)
 
 /*
 	This routine waits for all the philos to have eaten all of their meals if
-	specified, or until on of them starves.
-	TODO
-	- do the necessary status checks
-	- print death message if anyone dies
+	specified, or until one of them starves.
 */
 void	*ph_monitor(void *data)
 {
@@ -68,6 +65,9 @@ void	ph_eating(t_philo *philo)
 	ph_wait(philo->dinner->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(&philo->r_fork);
+	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
+	ph_wait(philo->dinner->t_sleep);
+	ph_print_status(philo->dinner, IS_THINKING, philo->id);
 }
 
 /*
@@ -92,12 +92,7 @@ void	*ph_routine(void *data)
 		ph_wait(10);
 	while ((ph_gettime() - philo->last_meal \
 		< philo->dinner->t_die))
-	{
 		ph_eating(philo);
-		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
-		ph_wait(philo->dinner->t_sleep);
-		ph_print_status(philo->dinner, IS_THINKING, philo->id);
-	}
 	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	pthread_mutex_lock(&philo->dinner->status);
 	philo->is_alive = 0;
