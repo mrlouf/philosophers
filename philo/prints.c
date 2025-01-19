@@ -50,8 +50,8 @@ int	ph_print_err(char *str)
 */
 void	ph_print_dinner(t_dinner *dinner)
 {
-	printf("Dining with %d philos, dying in %d ms, \
-eating for %d, sleeping for %d", \
+	printf("Dining with %d philos, dying in %lu ms, \
+eating for %lu, sleeping for %lu", \
 		dinner->nb_philos, dinner->t_die, \
 		dinner->t_eat, dinner->t_sleep);
 	if (dinner->n_meals > 0)

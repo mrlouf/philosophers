@@ -31,7 +31,12 @@ int	ph_check_status(t_dinner *dinner)
 	pthread_mutex_lock(&dinner->status);
 	while (++i < dinner->nb_philos)
 	{
-		if (dinner->philos[i].meals < dinner->n_meals)
+		if (dinner->philos[i].is_alive == 0)
+		{
+			pthread_mutex_unlock(&dinner->status);
+			return (1);
+		}
+		else if (dinner->philos[i].meals < dinner->n_meals)
 			break ;
 		else if (i + 1 == dinner->n_meals)
 		{

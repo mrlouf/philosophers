@@ -12,18 +12,22 @@
 
 #include "philo.h"
 
+/*
+	Special routine for the case where only a lonely philo sits at the table.
+	With only one fork, he takes the first one, waits for the specified time to
+	starve, and starves. 
+*/
 int	ph_lone_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_fork);
-	ph_print_status(philo->dinner, "has taken a fork 🍴", philo->id);
-	ph_print_status(philo->dinner, "is eating 🍝", philo->id);
-	philo->last_meal = ph_gettime();
+	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
+	ph_wait(philo->dinner->t_die);
 	pthread_mutex_lock(&philo->dinner->status);
-	philo->meals++;
+	philo->is_alive = 1;
+	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	pthread_mutex_unlock(&philo->dinner->status);
-	ph_wait(philo->dinner->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
-	pthread_mutex_unlock(&philo->r_fork);
+	return (0);
 }
 
 /*
@@ -38,8 +42,8 @@ void	*ph_monitor(void *data)
 	t_dinner	*dinner;
 
 	dinner = (t_dinner *)data;
-	while (dinner->live_philos < dinner->nb_philos)
-		ph_wait(100);
+	//while (dinner->live_philos < dinner->nb_philos)
+	//	ph_wait(100);
 	while (!ph_check_status(dinner))
 		ph_wait(dinner->t_die / 2);
 	ph_clean_dinner(dinner);
@@ -53,10 +57,10 @@ void	*ph_monitor(void *data)
 void	ph_eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_fork);
-	ph_print_status(philo->dinner, "has taken a fork 🍴", philo->id);
+	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	pthread_mutex_lock(&philo->r_fork);
-	ph_print_status(philo->dinner, "has taken a fork 🍴", philo->id);
-	ph_print_status(philo->dinner, "is eating 🍝", philo->id);
+	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
+	ph_print_status(philo->dinner, IS_EATING, philo->id);
 	philo->last_meal = ph_gettime();
 	pthread_mutex_lock(&philo->dinner->status);
 	philo->meals++;
@@ -80,15 +84,18 @@ void	*ph_routine(void *data)
 	philo->dinner->live_philos++;
 	pthread_mutex_unlock(&philo->dinner->init);
 	if (philo->dinner->nb_philos == 1)
-		return (ph_lone_philo(philo));
+	{
+		ph_lone_philo(philo);
+		return (NULL);
+	}
 	if (philo->id % 2 == 0)
-		ph_wait(200);
+		ph_wait(500);
 	while (42)
 	{
 		ph_eating(philo);
-		ph_print_status(philo->dinner, "is sleeping 😴", philo->id);
+		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
 		ph_wait(philo->dinner->t_sleep);
-		ph_print_status(philo->dinner, "is thinking 💡", philo->id);
+		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
 	return (NULL);
 }

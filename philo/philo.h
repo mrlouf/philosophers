@@ -21,6 +21,14 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+//	MACROS
+
+# define TAKEN_FORK "has taken a fork 🍴"
+# define IS_EATING "is eating 🍝"
+# define IS_SLEEPING "is sleeping 😴"
+# define IS_THINKING "is thinking 💡"
+# define HAS_DIED "has died 💀"
+
 typedef struct s_dinner	t_dinner;
 
 typedef struct s_philo
@@ -37,9 +45,9 @@ typedef struct s_philo
 typedef struct s_dinner
 {
 	int				nb_philos;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
+	long			t_die;
+	long			t_eat;
+	long			t_sleep;
 	int				n_meals;
 	int				live_philos;
 	int				dead_philo;

@@ -47,13 +47,13 @@ int	ph_start_dinner(t_dinner *dinner)
 	i = -1;
 	while (++i < dinner->nb_philos)
 	{
-		dinner->philos[i].id = i;
 		if (pthread_create(&dinner->philos_th[i], 0, \
 			&ph_routine, (void *)&dinner->philos[i]))
 			return (ph_print_err("Error creating philo_th"));
 		if (pthread_detach(dinner->philos_th[i]))
 			return (ph_print_err("Error detaching philo_th"));
 	}
+	ph_wait(60);
 	if (pthread_create(&dinner->monitor, 0, \
 		&ph_monitor, (void *)dinner))
 		return (ph_print_err("Error creating philo_th"));
