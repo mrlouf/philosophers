@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 20:04:50 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:32:57 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_dinner
 	int				n_meals;
 	int				live_philos;
 	int				dead_philo;
+	int				completed;
 	long long		start;
 	pthread_t		monitor;
 	pthread_t		*philos_th;

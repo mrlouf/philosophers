@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 20:31:04 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:47:50 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	*ph_routine(void *data)
 	}
 	if (philo->id % 2 == 0)
 		ph_wait(10);
-	while (ph_gettime() - philo->last_meal \
-		< philo->dinner->t_die)
+	while ((ph_gettime() - philo->last_meal \
+		< philo->dinner->t_die))
 	{
 		ph_eating(philo);
 		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);

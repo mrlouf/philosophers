@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 19:38:04 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:49:42 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	ph_print_complete(t_dinner *dinner)
 	printf("\n");
 	printf("Dinner completed!\n");
 	printf("\n");
-	printf("To live is to suffer,\n");
-	printf("to survive is to find meaning in the suffering.\n");
+	printf("\"To live is to suffer,\n");
+	printf("to survive is to find meaning in the suffering.\"\n");
 	printf("\n");
 	printf("Friederich Nietzsche\n");
 	pthread_mutex_unlock(&dinner->print);
@@ -60,8 +60,7 @@ eating for %lu, sleeping for %lu", \
 }
 
 /*
-	A debug function that prints all the data pertaining to the dinner and
-	returns 1.
+	An error message displayed in case of incorrect input.
 */
 int	ph_print_usage(void)
 {
