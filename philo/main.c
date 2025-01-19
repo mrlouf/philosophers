@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 18:27:14 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:46:52 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ph_start_dinner(t_dinner *dinner)
 		if (pthread_detach(dinner->philos_th[i]))
 			return (ph_print_err("Error detaching philo_th"));
 	}
-	ph_wait(60);
+	ph_wait(dinner->t_die / 2);
 	if (pthread_create(&dinner->monitor, 0, \
 		&ph_monitor, (void *)dinner))
 		return (ph_print_err("Error creating philo_th"));

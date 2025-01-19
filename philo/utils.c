@@ -6,11 +6,36 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 18:26:51 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:04:47 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	Custom usleep function to be more precise than the original by making up
+	for delay, tick rate, OS scheduler etc.
+*/
+void	ph_usleep(long usec)
+{
+	struct timeval	start;
+	struct timeval	current;
+	long			elapsed;
+	long			rem;
+
+	elapsed = 0;
+	rem = 0;
+	gettimeofday(&start, NULL);
+	while (elapsed < usec)
+	{
+		gettimeofday(&current, NULL);
+		elapsed = (current.tv_sec - start.tv_sec) \
+		* 1000000L + (current.tv_usec - start.tv_usec);
+		rem = usec - elapsed;
+		if (rem > 1000)
+			usleep(rem / 2);
+	}
+}
 
 /*
 	Gets the time of the day in seconds and milliseconds.
@@ -32,7 +57,8 @@ int	ph_wait(long int ms)
 	long int	us;
 
 	us = ms * 1000;
-	return (usleep(us));
+	ph_usleep(us);
+	return (0);
 }
 
 /*

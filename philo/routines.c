@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 18:54:02 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:31:04 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void	*ph_monitor(void *data)
 
 	dinner = (t_dinner *)data;
 	while (!ph_check_status(dinner))
-		ph_wait(dinner->t_die / 2);
+		ph_wait(dinner->t_die / dinner->nb_philos);
+	if (dinner->dead_philo)
+		printf("Simulation stopped because %i starved\n", dinner->dead_philo);
 	ph_clean_dinner(dinner);
 	return (NULL);
 }
@@ -87,17 +89,18 @@ void	*ph_routine(void *data)
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-	{
-		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
-		ph_wait(philo->dinner->t_sleep);
-		ph_print_status(philo->dinner, IS_THINKING, philo->id);
-	}
-	while (42)
+		ph_wait(10);
+	while (ph_gettime() - philo->last_meal \
+		< philo->dinner->t_die)
 	{
 		ph_eating(philo);
 		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
 		ph_wait(philo->dinner->t_sleep);
 		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
+	ph_print_status(philo->dinner, HAS_DIED, philo->id);
+	pthread_mutex_lock(&philo->dinner->status);
+	philo->is_alive = 0;
+	pthread_mutex_unlock(&philo->dinner->status);
 	return (NULL);
 }

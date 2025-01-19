@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 19:20:52 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:04:50 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ long long	ph_gettime(void);
 int			ph_is_integer(const char *str);
 int			ph_atoll(const char *str);
 void		ph_clean_dinner(t_dinner *dinner);
+void		ph_usleep(long usec);
 
 //	PRINTS && DEBUG
 void		ph_print_status(t_dinner *dinner, char *str, int id);

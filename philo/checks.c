@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 18:54:38 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:33:25 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ int	ph_check_status(t_dinner *dinner)
 	{
 		if (dinner->philos[i].is_alive == 0)
 		{
+			dinner->dead_philo = dinner->philos[i].id;
 			pthread_mutex_unlock(&dinner->status);
 			return (1);
 		}
 		else if (dinner->philos[i].meals < dinner->n_meals)
 			break ;
-		else if (i + 1 == dinner->n_meals)
+		else if (i + 1 == dinner->nb_philos)
 		{
 			pthread_mutex_unlock(&dinner->status);
 			ph_print_complete(dinner);
