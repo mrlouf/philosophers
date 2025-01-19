@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/17 18:13:30 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:26:51 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ long long	ph_gettime(void)
 }
 
 /*
-	Waiting function that take a long int for milliseconds and converts it
+	Waiting function that takes a long int for milliseconds and converts it
 	to microseconds to call usleep.
 */
 int	ph_wait(long int ms)
