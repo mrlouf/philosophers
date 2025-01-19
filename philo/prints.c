@@ -6,12 +6,16 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 22:49:42 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 23:16:38 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+	Prints the final message when the dinner is complete, ie. when all philos
+	have eaten the specified number of meals.
+*/
 void	ph_print_complete(t_dinner *dinner)
 {
 	pthread_mutex_lock(&dinner->print);
@@ -25,6 +29,10 @@ void	ph_print_complete(t_dinner *dinner)
 	pthread_mutex_unlock(&dinner->print);
 }
 
+/*
+	Print function used to display all the status update with the timestamp.
+	The print mutex prevents any message coincidence.
+*/
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
 	pthread_mutex_lock(&dinner->print);

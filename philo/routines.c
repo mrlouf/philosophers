@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 23:09:15 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/19 23:32:13 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	ph_eating(t_philo *philo)
 
 /*
 	The dining routine for each philosopher: eat, think, sleep, repeat.
-	TODO
-	- implement the routine, including status checks and updates
 */
 void	*ph_routine(void *data)
 {
