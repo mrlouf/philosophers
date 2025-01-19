@@ -29,7 +29,7 @@ void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
 	pthread_mutex_lock(&dinner->print);
 	printf("[%llu] ", ph_gettime() - dinner->start);
-	printf("%d ", id + 1);
+	printf("%d ", id);
 	printf("%s\n", str);
 	pthread_mutex_unlock(&dinner->print);
 }
