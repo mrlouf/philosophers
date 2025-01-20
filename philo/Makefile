@@ -25,7 +25,7 @@ OBJS		= 	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 CC			=	-cc
 
-CFLAGS		=	-Werror -Wextra -Wall -lpthread -g# -fsanitize=address #-fsanitize=thread
+CFLAGS		=	-Werror -Wextra -Wall -pthread -g -fsanitize=address#-fsanitize=thread
 
 INCLUDE		=	-I.
 
