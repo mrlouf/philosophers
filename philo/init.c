@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 22:32:35 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 11:25:55 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 	dinner->t_die = ph_atoll(av[2]);
 	dinner->t_eat = ph_atoll(av[3]);
 	dinner->t_sleep = ph_atoll(av[4]);
-	dinner->n_meals = 0;
+	dinner->n_meals = -1;
 	if (ac == 6)
 		dinner->n_meals = ph_atoll(av[5]);
 	dinner->live_philos = 0;

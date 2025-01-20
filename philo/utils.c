@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 20:04:47 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 09:53:22 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ph_is_integer(const char *str)
 	return (1);
 }
 
-int	ph_atoll(const char *str)
+long long	ph_atoll(const char *str)
 {
 	long long	nbr;
 	int			sign;

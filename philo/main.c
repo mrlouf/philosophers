@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 19:46:52 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:28:47 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,23 @@
 /*
 	Used to free all pointers after the simulation has stopped.
 */
-void	ph_clean_dinner(t_dinner *dinner)
+int	ph_clean_dinner(t_dinner *dinner)
 {
 	int	i;
 
 	i = -1;
+	ph_wait(10);
 	while (++i < dinner->nb_philos)
+	{
 		pthread_mutex_destroy(&dinner->forks[i]);
+	}
 	pthread_mutex_destroy(&dinner->init);
 	pthread_mutex_destroy(&dinner->status);
 	pthread_mutex_destroy(&dinner->print);
+	free(dinner->philos_th);
 	free(dinner->philos);
 	free(dinner->forks);
-	free(dinner->philos_th);
-	return ;
+	return (0);
 }
 
 /*
@@ -41,6 +44,8 @@ int	ph_start_dinner(t_dinner *dinner)
 {
 	int	i;
 
+	if (!dinner->n_meals)
+		return (ph_clean_dinner(dinner));
 	dinner->philos_th = malloc(sizeof(pthread_t) * dinner->nb_philos);
 	if (!dinner->philos_th)
 		return (ph_print_err("Error malloc-ing philo_th"));
@@ -58,7 +63,7 @@ int	ph_start_dinner(t_dinner *dinner)
 		&ph_monitor, (void *)dinner))
 		return (ph_print_err("Error creating philo_th"));
 	pthread_join(dinner->monitor, 0);
-	return (0);
+	return (ph_clean_dinner(dinner));
 }
 
 int	main(int ac, char **av)
