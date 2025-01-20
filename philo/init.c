@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 11:25:55 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:42:17 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,21 @@ int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 	the dinner.
 	Handles error in case a function fails at any stage.
 */
-int	ph_init_simulation(int ac, char **av)
+t_dinner	*ph_init_simulation(int ac, char **av)
 {
-	t_dinner	dinner;
+	t_dinner	*dinner;
 
-	memset(&dinner, 0, sizeof(t_dinner));
-	if (ph_init_dinner(ac, av, &dinner))
-		return (1);
-	if (ph_init_forks(&dinner))
-		return (1);
-	if (ph_init_philos(&dinner))
-		return (1);
-	if (ph_start_dinner(&dinner))
-		return (1);
-	return (0);
+	dinner = malloc(sizeof(t_dinner));
+	if (!dinner)
+		return (NULL);
+	if (ph_init_dinner(ac, av, dinner))
+		return (NULL);
+	if (ph_init_forks(dinner))
+		return (NULL);
+	if (ph_init_philos(dinner))
+		return (NULL);
+	ph_print_dinner(dinner);
+	if (ph_start_dinner(dinner))
+		return (NULL);
+	return (dinner);
 }

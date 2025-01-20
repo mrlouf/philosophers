@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 17:28:47 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:52:53 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	ph_clean_dinner(t_dinner *dinner)
 	free(dinner->philos_th);
 	free(dinner->philos);
 	free(dinner->forks);
+	free(dinner);
 	return (0);
 }
 
@@ -45,7 +46,7 @@ int	ph_start_dinner(t_dinner *dinner)
 	int	i;
 
 	if (!dinner->n_meals)
-		return (ph_clean_dinner(dinner));
+		return (0);
 	dinner->philos_th = malloc(sizeof(pthread_t) * dinner->nb_philos);
 	if (!dinner->philos_th)
 		return (ph_print_err("Error malloc-ing philo_th"));
@@ -59,17 +60,26 @@ int	ph_start_dinner(t_dinner *dinner)
 			return (ph_print_err("Error detaching philo_th"));
 	}
 	ph_wait(dinner->t_die / 2);
-	if (pthread_create(&dinner->monitor, 0, \
-		&ph_monitor, (void *)dinner))
-		return (ph_print_err("Error creating philo_th"));
-	pthread_join(dinner->monitor, 0);
-	return (ph_clean_dinner(dinner));
+	if (dinner->nb_philos > 1)
+	{
+		if (pthread_create(&dinner->monitor, 0, &ph_monitor, \
+			(void *)dinner))
+			return (ph_print_err("Error creating philo_th"));
+		pthread_join(dinner->monitor, 0);
+	}
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
-	if (ac >= 5 && ac <= 6 && !ph_check_args(ac - 1, av))
-		return (ph_init_simulation(ac, av));
-	else
+	t_dinner	*dinner;
+
+	dinner = NULL;
+	if ((ac < 5 && ac > 6) || ph_check_args(ac - 1, av))
 		return (ph_print_usage());
+	dinner = ph_init_simulation(ac, av);
+	if (ph_start_dinner(dinner))
+		return (1);
+	ph_clean_dinner(dinner);
+	return (0);
 }
