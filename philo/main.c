@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 10:07:08 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:45:44 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ void	ph_clean_dinner(t_dinner *dinner)
 
 	i = -1;
 	while (++i < dinner->nb_philos)
+	{
 		pthread_mutex_destroy(&dinner->forks[i]);
+	}
 	pthread_mutex_destroy(&dinner->init);
 	pthread_mutex_destroy(&dinner->status);
 	pthread_mutex_destroy(&dinner->print);
+	free(dinner->philos_th);
 	free(dinner->philos);
 	free(dinner->forks);
-	if (dinner->n_meals)
-		free(dinner->philos_th);
 	return ;
 }
 

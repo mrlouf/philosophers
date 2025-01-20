@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 10:04:37 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:05:22 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,23 @@ void	*ph_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	pthread_mutex_lock(&philo->dinner->init);
-	philo->dinner->live_philos++;
-	pthread_mutex_unlock(&philo->dinner->init);
 	if (philo->dinner->nb_philos == 1)
 	{
 		ph_lone_philo(philo);
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		ph_wait(10);
+	{
+		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
+		ph_wait(philo->dinner->t_sleep);
+		ph_print_status(philo->dinner, IS_THINKING, philo->id);
+	}
 	while ((ph_gettime() - philo->last_meal \
 		< philo->dinner->t_die))
 		ph_eating(philo);
 	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	pthread_mutex_lock(&philo->dinner->status);
-	philo->is_alive = 0;
+	philo->dinner->dead_philo = philo->id;
 	pthread_mutex_unlock(&philo->dinner->status);
 	return (NULL);
 }

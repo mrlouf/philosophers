@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/19 23:16:38 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:04:37 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,19 @@ void	ph_print_complete(t_dinner *dinner)
 */
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
-	pthread_mutex_lock(&dinner->print);
-	printf("[%llu] ", ph_gettime() - dinner->start);
-	printf("%d ", id);
-	printf("%s\n", str);
-	pthread_mutex_unlock(&dinner->print);
+	pthread_mutex_lock(&dinner->status);
+	if (dinner->dead_philo == 0)
+	{
+		pthread_mutex_unlock(&dinner->status);
+		pthread_mutex_lock(&dinner->print);
+		printf("[%llu] ", ph_gettime() - dinner->start);
+		printf("%d ", id);
+		printf("%s\n", str);
+		pthread_mutex_unlock(&dinner->print);
+		return ;
+	}
+	pthread_mutex_unlock(&dinner->status);
+	return ;
 }
 
 /*
