@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 12:06:32 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:47:47 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,42 @@
 	Checks the current state of every philo to monitor if one has died or
 	if everyone has eaten the specified number of meals.
 */
+/*
+int	ph_check_status(t_dinner *dinner)
+{
+	int	i;
+
+	while (!dinner->dead_philo)
+	{
+		i = -1;
+		while (++i < dinner->nb_philos)
+		{
+			if (ph_gettime() - dinner->philos[i].last_meal \
+		> dinner->t_die)
+			{
+				dinner->dead_philo = dinner->philos[i].id;
+			}
+			else if (dinner->philos[i].meals >= dinner->n_meals)
+				continue ;
+		}
+
+	}
+	return (0);
+}
+*/
 int	ph_check_status(t_dinner *dinner)
 {
 	int	i;
 
 	i = -1;
-	pthread_mutex_lock(&dinner->status);
-	if (dinner->dead_philo)
-	{
-		pthread_mutex_lock(&dinner->print);
-		pthread_mutex_unlock(&dinner->status);
-		return (1);
-	}
 	while (++i < dinner->nb_philos)
 	{
-		if (dinner->n_meals == -1 || dinner->philos[i].meals < dinner->n_meals)
-			break ;
+		pthread_mutex_lock(&dinner->status);
+		if (!dinner->philos[i].is_alive)
+		{
+			pthread_mutex_unlock(&dinner->status);
+			return (ph_print_death(dinner, i));
+		}
 		else if (i + 1 == dinner->nb_philos)
 		{
 			dinner->completed = 1;

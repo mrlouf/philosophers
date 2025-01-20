@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 12:27:44 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:45:35 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	ph_lone_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_fork);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
-	pthread_mutex_lock(&philo->dinner->status);
 	ph_wait(philo->dinner->t_die);
+	pthread_mutex_lock(&philo->dinner->status);
 	philo->is_alive = 0;
-	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	pthread_mutex_unlock(&philo->dinner->status);
+	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	pthread_mutex_unlock(&philo->l_fork);
 	return (0);
 }
@@ -41,9 +41,6 @@ void	*ph_monitor(void *data)
 	dinner = (t_dinner *)data;
 	while (!ph_check_status(dinner))
 		ph_wait(dinner->t_die / dinner->nb_philos);
-	if (dinner->dead_philo)
-		printf("Simulation stopped because a philosopher has starved\n");
-	ph_clean_dinner(dinner);
 	return (NULL);
 }
 
