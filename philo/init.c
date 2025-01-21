@@ -6,11 +6,17 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 15:59:17 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:47:10 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ph_delay(long long start)
+{
+	while (ph_gettime() < start)
+		continue ;
+}
 
 /*
 	Initialises all the forks (mutexes) to be put at the table,
