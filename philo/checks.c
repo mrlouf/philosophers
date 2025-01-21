@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 15:59:03 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:08:31 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ph_is_stopped(t_philo *philo)
 
 /*
 	"Kills" a philosopher if he has spent too long without a meal
-	and sets the 'completed' flag, putting an end to the simulation.
+	and raises the 'completed' flag, putting an end to the simulation.
 */
 int	ph_check_starvation(t_dinner *dinner, int i)
 {
@@ -40,6 +40,19 @@ int	ph_check_starvation(t_dinner *dinner, int i)
 		ph_print_status(dinner, HAS_DIED, dinner->philos[i].id);
 		dinner->completed = 1;
 		pthread_mutex_unlock(&dinner->status);
+		return (1);
+	}
+	return (0);
+}
+
+int	ph_check_meals(t_dinner *dinner, int all_ate)
+{
+	if (dinner->n_meals > 0 && all_ate == 1)
+	{
+		pthread_mutex_lock(&dinner->status);
+		dinner->completed = 1;
+		pthread_mutex_unlock(&dinner->status);
+		ph_print_complete(dinner);
 		return (1);
 	}
 	return (0);
@@ -54,27 +67,18 @@ int	ph_check_status(t_dinner *dinner)
 	int	i;
 	int	all_ate;
 
-	while (!dinner->completed)
+	all_ate = 1;
+	i = -1;
+	pthread_mutex_lock(&dinner->status);
+	while (++i < dinner->nb_philos)
 	{
-		all_ate = 1;
-		i = -1;
-		pthread_mutex_lock(&dinner->status);
-		while (++i < dinner->nb_philos)
-		{
-			if (ph_check_starvation(dinner, i))
-				return (1);
-			if (dinner->philos[i].meals < dinner->n_meals)
-				all_ate = 0;
-		}
-		pthread_mutex_unlock(&dinner->status);
+		if (ph_check_starvation(dinner, i))
+			return (1);
+		if (dinner->philos[i].meals < dinner->n_meals)
+			all_ate = 0;
 	}
-	if (dinner->n_meals > 0 && all_ate)
-	{
-		dinner->completed = 1;
-		ph_print_complete(dinner);
-		return (1);
-	}
-	return (0);
+	pthread_mutex_unlock(&dinner->status);
+	return (ph_check_meals(dinner, all_ate));
 }
 
 /*
