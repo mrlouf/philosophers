@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 14:33:00 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:20:43 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*ph_monitor(void *data)
 
 	dinner = (t_dinner *)data;
 	while (!ph_check_status(dinner))
-		ph_wait(dinner->t_die / dinner->nb_philos);
+		ph_wait(1);
 	return (NULL);
 }
 
@@ -59,8 +59,12 @@ void	ph_eating(t_philo *philo)
 	ph_wait(philo->dinner->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(&philo->r_fork);
+	if (ph_is_stopped(philo))
+		return ;
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
 	ph_wait(philo->dinner->t_sleep);
+	if (ph_is_stopped(philo))
+		return ;
 	ph_print_status(philo->dinner, IS_THINKING, philo->id);
 }
 
@@ -80,9 +84,7 @@ void	*ph_routine(void *data)
 		ph_wait(philo->dinner->t_sleep);
 		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
-	while (!philo->dinner->completed)
-	{
+	while (!ph_is_stopped(philo))
 		ph_eating(philo);
-	}
 	return (NULL);
 }

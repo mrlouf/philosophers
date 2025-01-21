@@ -6,11 +6,44 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 14:31:39 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:59:03 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	Small function used by the philosophers to check whether the simulation
+	has stopped, either because one of them is dead or because
+	they all had their meals.
+*/
+int	ph_is_stopped(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->dinner->status);
+	if (philo->dinner->completed)
+	{
+		pthread_mutex_unlock(&philo->dinner->status);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->dinner->status);
+	return (0);
+}
+
+/*
+	"Kills" a philosopher if he has spent too long without a meal
+	and sets the 'completed' flag, putting an end to the simulation.
+*/
+int	ph_check_starvation(t_dinner *dinner, int i)
+{
+	if (ph_gettime() - dinner->philos[i].last_meal > dinner->t_die)
+	{
+		ph_print_status(dinner, HAS_DIED, dinner->philos[i].id);
+		dinner->completed = 1;
+		pthread_mutex_unlock(&dinner->status);
+		return (1);
+	}
+	return (0);
+}
 
 /*
 	Checks the current state of every philo to monitor if one has died or
@@ -19,24 +52,27 @@
 int	ph_check_status(t_dinner *dinner)
 {
 	int	i;
+	int	all_ate;
 
-	while (!dinner->dead_philo)
+	while (!dinner->completed)
 	{
+		all_ate = 1;
 		i = -1;
 		pthread_mutex_lock(&dinner->status);
 		while (++i < dinner->nb_philos)
 		{
-			if (ph_gettime() \
-			- dinner->philos[i].last_meal \
-			> dinner->t_die)
-			{
-				dinner->dead_philo = dinner->philos[i].id;
-				dinner->completed = 1;
-			}
-			else if (dinner->philos[i].meals >= dinner->n_meals)
-				continue ;
+			if (ph_check_starvation(dinner, i))
+				return (1);
+			if (dinner->philos[i].meals < dinner->n_meals)
+				all_ate = 0;
 		}
 		pthread_mutex_unlock(&dinner->status);
+	}
+	if (dinner->n_meals > 0 && all_ate)
+	{
+		dinner->completed = 1;
+		ph_print_complete(dinner);
+		return (1);
 	}
 	return (0);
 }

@@ -6,14 +6,14 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 13:09:34 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:21:42 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-	Used to destroy all mutexes (unlocked!) free all pointers after
+	Used to destroy all mutexes (unlocked!) and free all pointers after
 	the simulation has stopped.
 */
 int	ph_clean_dinner(t_dinner *dinner)
@@ -41,8 +41,8 @@ void	ph_stop_dinner(t_dinner *dinner)
 {
 	int	i;
 
-	i = 0;
-	if (i < dinner->nb_philos)
+	i = -1;
+	while (++i < dinner->nb_philos)
 		pthread_join(dinner->philos_th[i], 0);
 	if (dinner->nb_philos > 1)
 		pthread_join(dinner->monitor, 0);

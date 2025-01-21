@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 14:35:34 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:58:29 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_dinner
 	long			t_sleep;
 	int				n_meals;
 	int				live_philos;
-	int				dead_philo;
 	int				completed;
 	long long		start;
 	pthread_t		monitor;
@@ -71,6 +70,7 @@ int			ph_init_dinner(int ac, char **av, t_dinner *dinner);
 int			ph_init_forks(t_dinner *dinner);
 int			ph_init_philos(t_dinner *dinner);
 int			ph_start_dinner(t_dinner *dinner);
+int			ph_is_stopped(t_philo *philo);
 void		ph_stop_dinner(t_dinner *dinner);
 void		*ph_routine(void *i);
 void		*ph_lone_philo(t_philo *philo);
@@ -78,6 +78,7 @@ void		*ph_monitor(void *data);
 
 //	UTILS
 int			ph_check_status(t_dinner *dinner);
+int			ph_check_starvation(t_dinner *dinner, int i);
 int			ph_wait(long int milliseconds);
 long long	ph_gettime(void);
 int			ph_is_integer(const char *str);
