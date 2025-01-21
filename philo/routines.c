@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 21:02:28 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:33:00 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,13 @@
 	With only one fork, he takes the first one, waits for the specified time to
 	starve, and starves. 
 */
-int	ph_lone_philo(t_philo *philo)
+void	*ph_lone_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_fork);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	ph_wait(philo->dinner->t_die);
-	pthread_mutex_lock(&philo->dinner->status);
-	philo->is_alive = 0;
-	pthread_mutex_unlock(&philo->dinner->status);
-	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	pthread_mutex_unlock(&philo->l_fork);
+	ph_print_status(philo->dinner, HAS_DIED, philo->id);
 	return (0);
 }
 
@@ -55,16 +52,9 @@ void	ph_eating(t_philo *philo)
 	pthread_mutex_lock(&philo->r_fork);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	ph_print_status(philo->dinner, IS_EATING, philo->id);
-	philo->last_meal = ph_gettime();
 	pthread_mutex_lock(&philo->dinner->status);
+	philo->last_meal = ph_gettime();
 	philo->meals++;
-	if (philo->dinner->dead_philo)
-	{
-		pthread_mutex_unlock(&philo->dinner->status);
-		pthread_mutex_unlock(&philo->l_fork);
-		pthread_mutex_unlock(&philo->r_fork);
-		return ;
-	}
 	pthread_mutex_unlock(&philo->dinner->status);
 	ph_wait(philo->dinner->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
@@ -83,22 +73,16 @@ void	*ph_routine(void *data)
 
 	philo = (t_philo *)data;
 	if (philo->dinner->nb_philos == 1)
-	{
-		ph_lone_philo(philo);
-		return (NULL);
-	}
+		return (ph_lone_philo(philo));
 	if (philo->id % 2 == 0)
 	{
 		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
 		ph_wait(philo->dinner->t_sleep);
 		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
-	while ((ph_gettime() - philo->last_meal \
-		< philo->dinner->t_die))
+	while (!philo->dinner->completed)
+	{
 		ph_eating(philo);
-	ph_print_status(philo->dinner, HAS_DIED, philo->id);
-	pthread_mutex_lock(&philo->dinner->status);
-	philo->dinner->dead_philo = philo->id;
-	pthread_mutex_unlock(&philo->dinner->status);
+	}
 	return (NULL);
 }

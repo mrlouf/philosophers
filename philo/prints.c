@@ -6,23 +6,11 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 17:46:59 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:35:17 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	ph_print_death(t_dinner *dinner, int i)
-{
-	pthread_mutex_lock(&dinner->status);
-	dinner->dead_philo = 1;
-	pthread_mutex_unlock(&dinner->status);
-	pthread_mutex_lock(&dinner->print);
-	printf("[%llu] ", ph_gettime() - dinner->start);
-	printf("Simulation ended because %d has died\n", dinner->philos[i].id);
-	pthread_mutex_unlock(&dinner->print);
-	return (1);
-}
 
 /*
 	Prints the final message when the dinner is complete, ie. when all philos
@@ -47,18 +35,11 @@ void	ph_print_complete(t_dinner *dinner)
 */
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
-	pthread_mutex_lock(&dinner->status);
-	if (dinner->dead_philo == 0)
-	{
-		pthread_mutex_unlock(&dinner->status);
-		pthread_mutex_lock(&dinner->print);
-		printf("[%llu] ", ph_gettime() - dinner->start);
-		printf("%d ", id);
-		printf("%s\n", str);
-		pthread_mutex_unlock(&dinner->print);
-		return ;
-	}
-	pthread_mutex_unlock(&dinner->status);
+	pthread_mutex_lock(&dinner->print);
+	printf("[%llu] ", ph_gettime() - dinner->start);
+	printf("%d ", id);
+	printf("%s\n", str);
+	pthread_mutex_unlock(&dinner->print);
 	return ;
 }
 

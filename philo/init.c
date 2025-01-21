@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 20:42:17 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:36:25 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	ph_init_forks(t_dinner *dinner)
 {
 	int	i;
 
-	i = -1;
 	dinner->forks = malloc(sizeof(pthread_mutex_t) * dinner->nb_philos);
 	if (!dinner->forks)
 		return (1);
+	i = -1;
 	while (++i < dinner->nb_philos)
 	{
 		if (pthread_mutex_init(&dinner->forks[i], NULL))
@@ -109,9 +109,6 @@ t_dinner	*ph_init_simulation(int ac, char **av)
 	if (ph_init_forks(dinner))
 		return (NULL);
 	if (ph_init_philos(dinner))
-		return (NULL);
-	ph_print_dinner(dinner);
-	if (ph_start_dinner(dinner))
 		return (NULL);
 	return (dinner);
 }
