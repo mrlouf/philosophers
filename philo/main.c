@@ -6,14 +6,14 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 15:21:42 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:30:37 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-	Used to destroy all mutexes (unlocked!) and free all pointers after
+	Used to destroy all (unlocked!) mutexes and free all pointers after
 	the simulation has stopped.
 */
 int	ph_clean_dinner(t_dinner *dinner)
@@ -62,7 +62,7 @@ int	ph_start_dinner(t_dinner *dinner)
 	dinner->philos_th = malloc(sizeof(pthread_t) * dinner->nb_philos);
 	if (!dinner->philos_th)
 		return (ph_print_err("Error malloc-ing philo_th"));
-	dinner->start = ph_gettime();
+	dinner->start = ph_gettime() + (dinner->nb_philos * 2);
 	i = -1;
 	while (++i < dinner->nb_philos)
 	{

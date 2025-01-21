@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 15:20:43 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:30:09 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*ph_monitor(void *data)
 	t_dinner	*dinner;
 
 	dinner = (t_dinner *)data;
+	ph_delay(dinner->start);
 	while (!ph_check_status(dinner))
 		ph_wait(1);
 	return (NULL);
@@ -68,6 +69,12 @@ void	ph_eating(t_philo *philo)
 	ph_print_status(philo->dinner, IS_THINKING, philo->id);
 }
 
+void	ph_delay(long long start)
+{
+	while (ph_gettime() < start)
+		continue ;
+}
+
 /*
 	The dining routine for each philosopher: eat, think, sleep, repeat.
 */
@@ -78,6 +85,7 @@ void	*ph_routine(void *data)
 	philo = (t_philo *)data;
 	if (philo->dinner->nb_philos == 1)
 		return (ph_lone_philo(philo));
+	ph_delay(philo->dinner->start);
 	if (philo->id % 2 == 0)
 	{
 		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);

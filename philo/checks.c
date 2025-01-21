@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 16:08:31 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:17:34 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ int	ph_check_starvation(t_dinner *dinner, int i)
 	return (0);
 }
 
+/*
+	Checks the flag 'all_ate' and, if positive, raises the 'completed' flag,
+	prints the end of the simulation and returns 1.
+*/
 int	ph_check_meals(t_dinner *dinner, int all_ate)
 {
 	if (dinner->n_meals > 0 && all_ate == 1)
