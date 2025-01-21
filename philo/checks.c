@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:12:41 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 16:17:34 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:26:55 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	ph_check_starvation(t_dinner *dinner, int i)
 {
 	if (ph_gettime() - dinner->philos[i].last_meal > dinner->t_die)
 	{
-		ph_print_status(dinner, HAS_DIED, dinner->philos[i].id);
 		dinner->completed = 1;
+		ph_print_status(dinner, HAS_DIED, dinner->philos[i].id);
 		pthread_mutex_unlock(&dinner->status);
 		return (1);
 	}
