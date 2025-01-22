@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:10:48 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 11:07:13 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:56:55 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,21 @@ int	ph_init_philos(t_dinner *dinner)
 	return (0);
 }
 
+/*
+	Initialises the semaphors: first, unlink same named sems to make sure
+	no lingering file was left from previous run.
+	Then, open the global sem with '/' to make it shared among processes.
+*/
 int	ph_init_sems(t_dinner *dinner)
 {
 	sem_unlink("/forks");
 	sem_unlink("/print");
 	dinner->forks = sem_open("/forks", O_CREAT, 0644, dinner->nb_philos);
+	if (!dinner->forks)
+		return (ph_print_err("Error creating semaphors"));
 	dinner->print = sem_open("/print", O_CREAT, 0644, 1);
+	if (!dinner->forks)
+		return (ph_print_err("Error creating semaphors"));
 	return (0);
 }
 
@@ -71,6 +80,8 @@ t_dinner	*ph_init_simulation(int ac, char **av)
 	if (ph_init_dinner(ac, av, dinner))
 		return (NULL);
 	if (ph_init_sems(dinner))
+		return (NULL);
+	if (ph_init_philos(dinner))
 		return (NULL);
 	ph_print_dinner(dinner);
 	return (dinner);
