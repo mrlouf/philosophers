@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:10:48 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 11:01:21 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:07:13 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ t_dinner	*ph_init_simulation(int ac, char **av)
 		return (NULL);
 	if (ph_init_sems(dinner))
 		return (NULL);
+	ph_print_dinner(dinner);
 	return (dinner);
 }
