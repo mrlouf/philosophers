@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 18:00:11 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:31:58 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,11 @@ static void	ph_eat_sleep(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
 	ph_usleep(philo->dinner->t_sleep);
-	ph_print_status(philo->dinner, IS_THINKING, philo->id);
 }
 
 static void	ph_think(t_philo *philo)
 {
-	time_t	time_to_think;
-
-	pthread_mutex_lock(&philo->dinner->status);
-	time_to_think = (philo->dinner->t_die
-			- (ph_gettime() - philo->last_meal)
-			- philo->dinner->t_eat) / 2;
-	pthread_mutex_unlock(&philo->dinner->status);
-	if (time_to_think < 0)
-		time_to_think = 0;
-	if (time_to_think == 0)
-		time_to_think = 1;
-	if (time_to_think > 600)
-		time_to_think = 200;
 	ph_print_status(philo->dinner, IS_THINKING, philo->id);
-	ph_usleep(time_to_think);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 17:30:37 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:30:14 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ph_start_dinner(t_dinner *dinner)
 	dinner->philos_th = malloc(sizeof(pthread_t) * dinner->nb_philos);
 	if (!dinner->philos_th)
 		return (ph_print_err("Error malloc-ing philo_th"));
-	dinner->start = ph_gettime() + (dinner->nb_philos * 2);
+	dinner->start = ph_gettime() + (dinner->nb_philos * 2 * 10);
 	i = -1;
 	while (++i < dinner->nb_philos)
 	{
