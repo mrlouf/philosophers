@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/22 12:08:09 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:21:13 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ph_eat(t_philo *philo)
 
 void	ph_routine(t_philo *philo)
 {
+	ph_delay(philo->dinner->start);
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (1)

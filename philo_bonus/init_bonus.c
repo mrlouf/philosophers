@@ -6,11 +6,17 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:10:48 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:13:06 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:22:04 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	ph_delay(long long start)
+{
+	while (ph_gettime() < start)
+		continue ;
+}
 
 int	ph_init_philos(t_dinner *dinner)
 {

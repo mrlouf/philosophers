@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:12:43 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:21:53 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void		ph_lone_philo(t_philo *philo);
 
 //	UTILS
 long long	ph_gettime(void);
+void		ph_delay(long long start);
 int			ph_is_integer(const char *str);
 long long	ph_atoll(const char *str);
 
