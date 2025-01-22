@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 17:51:20 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:00:11 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ static void	ph_eat_sleep(t_philo *philo)
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	ph_print_status(philo->dinner, IS_EATING, philo->id);
 	if (ph_is_stopped(philo))
+	{
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
 		return ;
+	}
 	pthread_mutex_lock(&philo->dinner->status);
 	philo->last_meal = ph_gettime();
 	philo->meals++;
