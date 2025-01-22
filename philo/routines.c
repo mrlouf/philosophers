@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 18:31:58 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:49:22 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*ph_monitor(void *data)
 	The processus of eating for every philosopher, locking the forks,
 	printing message, updating variables, waiting the t_eat, unlocking forks.
 */
-static void	ph_eat_sleep(t_philo *philo)
+static void	ph_eat_sleep_think(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
@@ -69,10 +69,6 @@ static void	ph_eat_sleep(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
 	ph_usleep(philo->dinner->t_sleep);
-}
-
-static void	ph_think(t_philo *philo)
-{
 	ph_print_status(philo->dinner, IS_THINKING, philo->id);
 }
 
@@ -95,11 +91,6 @@ void	*ph_routine(void *data)
 		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
 	while (!ph_is_stopped(philo))
-	{
-		ph_eat_sleep(philo);
-		if (ph_is_stopped(philo))
-			return (NULL);
-		ph_think(philo);
-	}
+		ph_eat_sleep_think(philo);
 	return (NULL);
 }
