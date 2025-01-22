@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 11:50:26 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:05:25 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	ph_start_simulation(t_dinner *dinner)
 	while (++i < dinner->nb_philos)
 	{
 		dinner->philos[i].pid = fork();
-		if (dinner->philos[i].pid == 0)
+		if (dinner->nb_philos == 1 && dinner->philos[i].pid == 0)
+			ph_lone_philo(&dinner->philos[i]);
+		else if (dinner->philos[i].pid == 0)
 			ph_routine(&dinner->philos[i]);
 	}
 	while (waitpid(-1, NULL, 0) > 0)
