@@ -9,6 +9,7 @@ NAME		= 	philo_bonus
 SRC			=	main_bonus.c		\
 				prints_bonus.c		\
 				checks_bonus.c		\
+				init_bonus.c		\
 				utils_bonus.c
 
 HEADER		=	philo_bonus.h

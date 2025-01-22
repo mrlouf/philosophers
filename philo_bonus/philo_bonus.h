@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 09:30:43 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:28:00 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <signal.h>
 
 //	MACROS
 
@@ -39,6 +42,7 @@ typedef struct s_philo
 	int				is_alive;
 	long long		meals;
 	long long		last_meal;
+	pid_t			pid;
 	t_dinner		*dinner;
 }	t_philo;
 
@@ -52,11 +56,14 @@ typedef struct s_dinner
 	int				live_philos;
 	int				completed;
 	long long		start;
+	sem_t			*forks;
+	sem_t			*print;
 	t_philo			*philos;
 }	t_dinner;
 
 //	DINING
 int			ph_check_args(int ac, char **av);
+t_dinner	*ph_init_simulation(int ac, char **av);
 
 //	UTILS
 int			ph_is_integer(const char *str);

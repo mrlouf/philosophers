@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 09:34:20 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:13:46 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int	main(int ac, char **av)
 	(void)dinner;
 	if (ac < 5 || ac > 6 || ph_check_args(ac - 1, av))
 		return (ph_print_usage());
-	printf("starting simulation\n");
+	dinner = ph_init_simulation(ac, av);
 	return (0);
 }
