@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:23:42 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:32:04 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	Frees the pointers.
 	Hint: check for leaking semaphors with 'ls /dev/shm'
 */
-static int	ph_clean_dinner(t_dinner *dinner)
+int	ph_clean_dinner(t_dinner *dinner)
 {
 	sem_close(dinner->forks);
 	sem_unlink("/forks");
@@ -58,7 +58,7 @@ int	main(int ac, char **av)
 		return (ph_print_usage());
 	dinner = ph_init_simulation(ac, av);
 	if (ph_start_simulation(dinner))
-		return (1);
+		return (EXIT_FAILURE);
 	ph_clean_dinner(dinner);
-	return (0);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:32:46 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 10:45:25 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:40:31 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,21 @@
 /*
 	Gets the time of the day in seconds and milliseconds.
 */
-long long	ph_gettime(void)
+time_t	ph_gettime(void)
 {
 	struct timeval	current_time;
 
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+}
+
+void	ph_sleep(time_t time)
+{
+	time_t	start;
+
+	start = ph_gettime() + time;
+	while (ph_gettime() < start)
+		usleep(100);
 }
 
 /*

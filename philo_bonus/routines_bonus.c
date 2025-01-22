@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/22 12:21:13 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:41:39 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 */
 void	ph_lone_philo(t_philo *philo)
 {
+	ph_delay(philo->dinner->start);
 	sem_wait(philo->dinner->forks);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
-	usleep(philo->dinner->t_die * 1000);
+	ph_sleep(philo->dinner->t_die);
 	sem_post(philo->dinner->forks);
 	ph_print_status(philo->dinner, HAS_DIED, philo->id);
-	return ;
+	ph_clean_dinner(philo->dinner);
+	exit(EXIT_SUCCESS);
 }
 
 void	ph_eat(t_philo *philo)
@@ -33,13 +35,13 @@ void	ph_eat(t_philo *philo)
 	sem_wait(philo->dinner->forks);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	ph_print_status(philo->dinner, IS_EATING, philo->id);
-	usleep(philo->dinner->t_eat * 1000);
+	ph_sleep(philo->dinner->t_eat);
 	philo->last_meal = ph_gettime();
 	philo->meals++;
 	sem_post(philo->dinner->forks);
 	sem_post(philo->dinner->forks);
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
-	usleep(philo->dinner->t_sleep * 1000);
+	ph_sleep(philo->dinner->t_sleep);
 	ph_print_status(philo->dinner, IS_THINKING, philo->id);
 }
 

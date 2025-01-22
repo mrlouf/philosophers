@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:21:53 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:39:58 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,13 @@ t_dinner	*ph_init_simulation(int ac, char **av);
 int			ph_init_sems(t_dinner *dinner);
 int			ph_init_philos(t_dinner *dinner);
 int			ph_start_simulation(t_dinner *dinner);
+int			ph_clean_dinner(t_dinner *dinner);
 void		ph_routine(t_philo *philo);
 void		ph_lone_philo(t_philo *philo);
 
 //	UTILS
-long long	ph_gettime(void);
+time_t		ph_gettime(void);
+void		ph_sleep(time_t time);
 void		ph_delay(long long start);
 int			ph_is_integer(const char *str);
 long long	ph_atoll(const char *str);
