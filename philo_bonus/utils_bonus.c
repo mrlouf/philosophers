@@ -6,11 +6,22 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:32:46 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 09:33:16 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:45:25 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+/*
+	Gets the time of the day in seconds and milliseconds.
+*/
+long long	ph_gettime(void)
+{
+	struct timeval	current_time;
+
+	gettimeofday(&current_time, NULL);
+	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+}
 
 /*
 	Checks if a string is a valid integer, ie. if it only contains numbers.

@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 10:28:00 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:03:36 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,19 @@ typedef struct s_dinner
 //	DINING
 int			ph_check_args(int ac, char **av);
 t_dinner	*ph_init_simulation(int ac, char **av);
+int			ph_init_sems(t_dinner *dinner);
+int			ph_init_philos(t_dinner *dinner);
 
 //	UTILS
+long long	ph_gettime(void);
 int			ph_is_integer(const char *str);
 long long	ph_atoll(const char *str);
 
 //	PRINTS && DEBUG
+void		ph_print_complete(t_dinner *dinner);
 int			ph_print_usage(void);
+void		ph_print_dinner(t_dinner *dinner);
+int			ph_print_err(char *str);
+void		ph_print_status(t_dinner *dinner, char *str, int id);
 
 #endif
