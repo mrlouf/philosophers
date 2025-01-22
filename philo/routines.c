@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 18:34:18 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 08:35:47 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 */
 void	*ph_lone_philo(t_philo *philo)
 {
+	ph_delay(philo->dinner->start);
 	pthread_mutex_lock(&philo->l_fork);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	ph_wait(philo->dinner->t_die);
