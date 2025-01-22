@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:45:11 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:58:02 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ time_t	ph_gettime(void)
 
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
-}
-
-/*
-	Waiting function that takes a long int for milliseconds and converts it
-	to microseconds to call usleep.
-*/
-int	ph_wait(long int ms)
-{
-	long int	us;
-
-	us = ms * 1000;
-	ph_usleep(us);
-	return (0);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:49:12 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:56:53 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*ph_monitor(void *data)
 	dinner = (t_dinner *)data;
 	ph_delay(dinner->start);
 	while (!ph_check_status(dinner))
-		ph_wait(1);
+		ph_usleep(1);
 	return (NULL);
 }
 
@@ -88,7 +88,7 @@ void	*ph_routine(void *data)
 	if (philo->id % 2 == 0)
 	{
 		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
-		ph_wait(philo->dinner->t_sleep);
+		ph_usleep(philo->dinner->t_sleep);
 		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
 	while (!ph_is_stopped(philo))
