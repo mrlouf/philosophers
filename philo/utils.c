@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:20 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/20 09:53:22 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:45:11 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,19 @@
 	Custom usleep function to be more precise than the original by making up
 	for delay, tick rate, OS scheduler etc.
 */
-void	ph_usleep(long usec)
+void	ph_usleep(time_t time)
 {
-	struct timeval	start;
-	struct timeval	current;
-	long			elapsed;
-	long			rem;
+	time_t	start;
 
-	elapsed = 0;
-	rem = 0;
-	gettimeofday(&start, NULL);
-	while (elapsed < usec)
-	{
-		gettimeofday(&current, NULL);
-		elapsed = (current.tv_sec - start.tv_sec) \
-		* 1000000L + (current.tv_usec - start.tv_usec);
-		rem = usec - elapsed;
-		if (rem > 1000)
-			usleep(rem / 2);
-	}
+	start = ph_gettime() + time;
+	while (ph_gettime() < start)
+		usleep(100);
 }
 
 /*
 	Gets the time of the day in seconds and milliseconds.
 */
-long long	ph_gettime(void)
+time_t	ph_gettime(void)
 {
 	struct timeval	current_time;
 

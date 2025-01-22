@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:28:02 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 08:35:47 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:49:12 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	*ph_lone_philo(t_philo *philo)
 	ph_delay(philo->dinner->start);
 	pthread_mutex_lock(&philo->l_fork);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
-	ph_wait(philo->dinner->t_die);
+	ph_usleep(philo->dinner->t_die);
 	pthread_mutex_unlock(&philo->l_fork);
 	ph_print_status(philo->dinner, HAS_DIED, philo->id);
-	return (0);
+	return (NULL);
 }
 
 /*
@@ -58,7 +58,7 @@ void	ph_eating(t_philo *philo)
 	philo->last_meal = ph_gettime();
 	philo->meals++;
 	pthread_mutex_unlock(&philo->dinner->status);
-	ph_wait(philo->dinner->t_eat);
+	ph_usleep(philo->dinner->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(&philo->r_fork);
 }
@@ -68,7 +68,7 @@ void	ph_sleep_think(t_philo *philo)
 	if (ph_is_stopped(philo))
 		return ;
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
-	ph_wait(philo->dinner->t_sleep);
+	ph_usleep(philo->dinner->t_sleep);
 	if (ph_is_stopped(philo))
 		return ;
 	ph_print_status(philo->dinner, IS_THINKING, philo->id);

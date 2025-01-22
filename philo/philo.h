@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 16:41:17 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:45:27 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ int			ph_check_status(t_dinner *dinner);
 int			ph_check_starvation(t_dinner *dinner, int i);
 int			ph_wait(long int milliseconds);
 void		ph_delay(long long start);
-long long	ph_gettime(void);
+time_t		ph_gettime(void);
 int			ph_is_integer(const char *str);
 long long	ph_atoll(const char *str);
 int			ph_clean_dinner(t_dinner *dinner);
-void		ph_usleep(long usec);
+void		ph_usleep(time_t time);
 
 //	PRINTS && DEBUG
 void		ph_print_status(t_dinner *dinner, char *str, int id);

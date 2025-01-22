@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:24:24 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 14:35:17 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:47:49 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 void	ph_print_complete(t_dinner *dinner)
 {
-	pthread_mutex_lock(&dinner->print);
+	(void)dinner;
 	printf("\n");
 	printf("Dinner completed!\n");
 	printf("\n");
@@ -26,7 +26,6 @@ void	ph_print_complete(t_dinner *dinner)
 	printf("to survive is to find meaning in the suffering.\"\n");
 	printf("\n");
 	printf("Friederich Nietzsche\n");
-	pthread_mutex_unlock(&dinner->print);
 }
 
 /*
@@ -35,6 +34,13 @@ void	ph_print_complete(t_dinner *dinner)
 */
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
+	/*pthread_mutex_lock(&dinner->status);
+	if (dinner->completed)
+	{
+		pthread_mutex_unlock(&dinner->status);
+		return ;
+	}
+	pthread_mutex_unlock(&dinner->status);*/
 	pthread_mutex_lock(&dinner->print);
 	printf("[%llu] ", ph_gettime() - dinner->start);
 	printf("%d ", id);
