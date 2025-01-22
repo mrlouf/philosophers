@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:32:04 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:56:42 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ph_start_simulation(t_dinner *dinner)
 	int	i;
 
 	i = -1;
-	dinner->start = ph_gettime() + (dinner->nb_philos * 2);
+	dinner->start = ph_gettime() + (dinner->nb_philos * 20);
 	while (++i < dinner->nb_philos)
 	{
 		dinner->philos[i].pid = fork();
