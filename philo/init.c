@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:36:17 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/21 18:47:10 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:50:56 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int	ph_init_philos(t_dinner *dinner)
 		dinner->philos[i].is_alive = 1;
 		dinner->philos[i].last_meal = ph_gettime();
 		dinner->philos[i].meals = 0;
-		dinner->philos[i].r_fork = dinner->forks[i];
+		dinner->philos[i].l_fork = &dinner->forks[i];
 		if (i != dinner->nb_philos - 1)
-			dinner->philos[i].l_fork = dinner->forks[i + 1];
+			dinner->philos[i].r_fork = &dinner->forks[i + 1];
 		else
-			dinner->philos[i].l_fork = dinner->forks[0];
+			dinner->philos[i].r_fork = &dinner->forks[0];
 		dinner->philos[i].dinner = dinner;
 	}
 	return (0);

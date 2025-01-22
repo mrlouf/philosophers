@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:36:58 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:57:58 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:13:00 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct s_philo
 	int				is_alive;
 	long long		meals;
 	long long		last_meal;
-	pthread_mutex_t	l_fork;
-	pthread_mutex_t	r_fork;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
 	t_dinner		*dinner;
 }	t_philo;
 
