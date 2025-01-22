@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:29:04 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 11:03:53 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:19:14 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 void	ph_print_complete(t_dinner *dinner)
 {
-	(void)dinner;
+	sem_wait(dinner->print);
 	printf("\n");
 	printf("Dinner completed!\n");
 	printf("\n");
@@ -26,6 +26,8 @@ void	ph_print_complete(t_dinner *dinner)
 	printf("to survive is to find meaning in the suffering.\"\n");
 	printf("\n");
 	printf("Friederich Nietzsche\n");
+	sem_post(dinner->print);
+	return ;
 }
 
 /*
@@ -34,9 +36,11 @@ void	ph_print_complete(t_dinner *dinner)
 */
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
+	sem_wait(dinner->print);
 	printf("[%llu] ", ph_gettime() - dinner->start);
 	printf("%d ", id);
 	printf("%s\n", str);
+	sem_post(dinner->print);
 	return ;
 }
 
@@ -63,6 +67,7 @@ eating for %lu, sleeping for %lu", \
 	if (dinner->n_meals > 0)
 		printf(", eating %d meals", dinner->n_meals);
 	printf("\n");
+	return ;
 }
 
 /*
