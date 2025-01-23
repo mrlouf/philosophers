@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/22 12:41:39 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 09:53:42 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ph_lone_philo(t_philo *philo)
 	exit(EXIT_SUCCESS);
 }
 
-void	ph_eat(t_philo *philo)
+static void	ph_eat_sleep_think(t_philo *philo)
 {
 	sem_wait(philo->dinner->forks);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
@@ -49,10 +49,12 @@ void	ph_routine(t_philo *philo)
 {
 	ph_delay(philo->dinner->start);
 	if (philo->id % 2 == 0)
-		usleep(1000);
-	while (1)
 	{
-		ph_eat(philo);
+		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
+		ph_sleep(philo->dinner->t_sleep);
+		ph_print_status(philo->dinner, IS_THINKING, philo->id);
 	}
-	return ;
+	while (1)
+		ph_eat_sleep_think(philo);
+	exit (EXIT_SUCCESS);
 }
