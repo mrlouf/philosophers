@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:10:48 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:22:04 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:19:14 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,16 @@ int	ph_init_philos(t_dinner *dinner)
 int	ph_init_sems(t_dinner *dinner)
 {
 	sem_unlink("/forks");
+	sem_unlink("/status");
 	sem_unlink("/print");
 	dinner->forks = sem_open("/forks", O_CREAT, 0644, dinner->nb_philos);
 	if (!dinner->forks)
 		return (ph_print_err("Error creating semaphors"));
+	dinner->status = sem_open("/status", O_CREAT, 0644, 1);
+	if (!dinner->status)
+		return (ph_print_err("Error creating semaphors"));
 	dinner->print = sem_open("/print", O_CREAT, 0644, 1);
-	if (!dinner->forks)
+	if (!dinner->print)
 		return (ph_print_err("Error creating semaphors"));
 	return (0);
 }
@@ -72,6 +76,7 @@ int	ph_init_dinner(int ac, char **av, t_dinner *dinner)
 	dinner->completed = 0;
 	dinner->start = ph_gettime();
 	dinner->forks = NULL;
+	dinner->status = NULL;
 	dinner->philos = NULL;
 	return (0);
 }

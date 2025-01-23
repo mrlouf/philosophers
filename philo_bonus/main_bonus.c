@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 10:12:22 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:16:05 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ph_clean_dinner(t_dinner *dinner)
 {
 	sem_close(dinner->forks);
 	sem_unlink("/forks");
+	sem_close(dinner->status);
+	sem_unlink("/status");
 	sem_close(dinner->print);
 	sem_unlink("/print");
 	free(dinner->philos);

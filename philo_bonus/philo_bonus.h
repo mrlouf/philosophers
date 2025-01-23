@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:39:58 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:16:58 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_dinner
 	int				completed;
 	long long		start;
 	sem_t			*forks;
+	sem_t			*status;
 	sem_t			*print;
 	t_philo			*philos;
 }	t_dinner;
