@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/23 14:37:08 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:49:31 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	ph_eat_sleep_think(t_philo *philo)
 	ph_print_status(philo->dinner, IS_EATING, philo->id);
 	philo->last_meal = ph_gettime();
 	philo->meals++;
-	ph_sleep(philo->dinner->t_eat);
 	if (philo->dinner->n_meals != -1
 		&& philo->meals >= philo->dinner->n_meals)
 	{
@@ -45,6 +44,7 @@ static void	ph_eat_sleep_think(t_philo *philo)
 		sem_post(philo->dinner->forks);
 		exit(0);
 	}
+	ph_sleep(philo->dinner->t_eat);
 	sem_post(philo->dinner->forks);
 	sem_post(philo->dinner->forks);
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
