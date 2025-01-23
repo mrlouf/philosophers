@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 09:32:46 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 12:40:31 by nponchon         ###   ########.fr       */
+/*   Created: 2025/01/23 12:58:33 by nponchon          #+#    #+#             */
+/*   Updated: 2025/01/23 12:59:28 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	ph_sleep(time_t time)
 	start = ph_gettime() + time;
 	while (ph_gettime() < start)
 		usleep(100);
+}
+
+/*
+	Delays the program until the specified time so that all philos and monitors
+	start at the same time.
+*/
+void	ph_delay(long long start)
+{
+	while (ph_gettime() < start)
+		continue ;
 }
 
 /*

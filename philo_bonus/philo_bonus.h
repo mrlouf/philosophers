@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 12:23:51 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 13:00:22 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ typedef struct s_philo
 	int				is_alive;
 	long long		meals;
 	long long		last_meal;
+	char			*sem;
 	pid_t			pid;
 	pthread_t		monitor;
+	sem_t			*counter;
 	t_dinner		*dinner;
 }	t_philo;
 
@@ -78,10 +80,13 @@ void		*ph_monitor(void *data);
 
 //	UTILS
 time_t		ph_gettime(void);
+char		*ph_get_sem_name(char *str, int i);
 void		ph_sleep(time_t time);
 void		ph_delay(long long start);
 int			ph_is_integer(const char *str);
 long long	ph_atoll(const char *str);
+char		*ft_itoa(int n);
+int			ft_strlen(const char *s);
 
 //	PRINTS && DEBUG
 void		ph_print_complete(t_dinner *dinner);

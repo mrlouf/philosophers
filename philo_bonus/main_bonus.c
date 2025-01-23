@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 12:20:18 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:53:16 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,21 @@
 */
 int	ph_clean_dinner(t_dinner *dinner)
 {
+	int	i;
+
+	i = -1;
 	sem_close(dinner->forks);
 	sem_unlink("/forks");
 	sem_close(dinner->status);
 	sem_unlink("/status");
 	sem_close(dinner->print);
 	sem_unlink("/print");
+	while (++i < dinner->nb_philos)
+	{
+		sem_close(dinner->philos[i].counter);
+		sem_unlink(dinner->philos[i].sem);
+		free(dinner->philos[i].sem);
+	}
 	free(dinner->philos);
 	free(dinner);
 	return (0);
@@ -48,8 +57,6 @@ int	ph_start_simulation(t_dinner *dinner)
 		else if (dinner->philos[i].pid < 0)
 			return (ph_print_err("Error forking philos"));
 	}
-	while (waitpid(-1, NULL, 0) > 0)
-		;
 	return (0);
 }
 

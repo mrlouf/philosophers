@@ -11,7 +11,8 @@ SRC			=	main_bonus.c		\
 				checks_bonus.c		\
 				init_bonus.c		\
 				routines_bonus.c	\
-				utils_bonus.c
+				utils1_bonus.c		\
+				utils2_bonus.c
 
 HEADER		=	philo_bonus.h
 

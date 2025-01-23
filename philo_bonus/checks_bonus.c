@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:31:18 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 12:23:25 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:45:49 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ int	ph_is_complete(t_philo *philo)
 	return (0);
 }
 
+static int	ph_is_philofull(t_philo *philo)
+{
+	sem_wait(philo->counter);
+	if (philo->meals >= philo->dinner->n_meals)
+	{
+		sem_post(philo->counter);
+		return (1);
+	}
+	sem_post(philo->dinner->status);
+	return (0);
+}
+
 /*
 	Monitoring thread that checks if the philo has died or if the dinner is
 	complete. If so, it exits the program with different exit status.
@@ -38,7 +50,7 @@ void	*ph_monitor(void *data)
 	philo = (t_philo *)data;
 	while (1)
 	{
-		if (ph_is_complete(philo))
+		if (ph_is_philofull(philo))
 		{
 			sem_post(philo->dinner->status);
 			philo->dinner->completed = 1;

@@ -6,22 +6,18 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:10:48 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 11:05:13 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:59:37 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	ph_delay(long long start)
-{
-	while (ph_gettime() < start)
-		continue ;
-}
-
 int	ph_init_philos(t_dinner *dinner)
 {
-	int	i;
+	int		i;
+	char	*sem;
 
+	sem = NULL;
 	dinner->philos = malloc(sizeof(t_philo) * dinner->nb_philos);
 	if (!dinner->philos)
 		return (ph_print_err("Error creating forks-mutex"));
@@ -34,6 +30,13 @@ int	ph_init_philos(t_dinner *dinner)
 		dinner->philos[i].pid = 0;
 		dinner->philos[i].dinner = dinner;
 		dinner->philos[i].monitor = 0;
+		sem = ph_get_sem_name("/counter", i);
+		if (!sem)
+			return (ph_print_err("Error creating counter sem"));
+		dinner->philos[i].sem = sem;
+		dinner->philos[i].counter = sem_open(sem, O_CREAT, 0644, 1);
+		if (!dinner->philos[i].counter)
+			return (ph_print_err("Error creating counter sem"));
 	}
 	return (0);
 }

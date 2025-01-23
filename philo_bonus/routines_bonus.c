@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/23 12:26:10 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:31:11 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,4 @@ void	ph_routine(t_philo *philo)
 	}
 	while (1)
 		ph_eat_sleep_think(philo);
-	exit (EXIT_SUCCESS);
 }
