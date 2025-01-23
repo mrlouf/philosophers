@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 10:05:06 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/22 18:50:30 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:29:28 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	ph_start_dinner(t_dinner *dinner)
 			(void *)dinner))
 			return (ph_print_err("Error creating philo_th"));
 	}
+	ph_stop_dinner(dinner);
 	return (0);
 }
 
@@ -89,6 +90,5 @@ int	main(int ac, char **av)
 	dinner = ph_init_simulation(ac, av);
 	if (ph_start_dinner(dinner))
 		return (1);
-	ph_stop_dinner(dinner);
 	return (0);
 }
