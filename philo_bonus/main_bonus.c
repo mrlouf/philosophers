@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:25:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 12:53:16 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:37:14 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,24 @@ void	ph_observe_philos(t_dinner *dinner)
 {
 	int	i;
 	int	status;
+	int	full_philos;
+	int	pid;
 
-	i = -1;
-	while (++i < dinner->nb_philos)
+	full_philos = 0;
+	while (full_philos != dinner->nb_philos)
 	{
-		waitpid(-1, &status, 0);
-		if (WIFEXITED(status))
+		pid = waitpid(-1, &status, 0);
+		if (WEXITSTATUS(status) == 1)
+		{
+			sem_post(dinner->print);
 			break ;
+		}
+		full_philos++;
+		if (full_philos == dinner->nb_philos)
+		{
+			sem_post(dinner->print);
+			ph_print_complete(dinner);
+		}
 	}
 	i = -1;
 	while (++i < dinner->nb_philos)

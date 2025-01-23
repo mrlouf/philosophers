@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/23 12:31:11 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:37:08 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	ph_lone_philo(t_philo *philo)
 
 static void	ph_eat_sleep_think(t_philo *philo)
 {
-	if (ph_is_complete(philo))
-		exit (EXIT_SUCCESS);
 	sem_wait(philo->dinner->forks);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	sem_wait(philo->dinner->forks);
@@ -40,6 +38,13 @@ static void	ph_eat_sleep_think(t_philo *philo)
 	philo->last_meal = ph_gettime();
 	philo->meals++;
 	ph_sleep(philo->dinner->t_eat);
+	if (philo->dinner->n_meals != -1
+		&& philo->meals >= philo->dinner->n_meals)
+	{
+		sem_post(philo->dinner->forks);
+		sem_post(philo->dinner->forks);
+		exit(0);
+	}
 	sem_post(philo->dinner->forks);
 	sem_post(philo->dinner->forks);
 	ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
@@ -49,8 +54,8 @@ static void	ph_eat_sleep_think(t_philo *philo)
 
 void	ph_routine(t_philo *philo)
 {
-	ph_delay(philo->dinner->start);
 	philo->last_meal = philo->dinner->start;
+	ph_delay(philo->dinner->start);
 	pthread_create(&philo->monitor, NULL, ph_monitor, philo);
 	pthread_detach(philo->monitor);
 	if (philo->id % 2 == 0)

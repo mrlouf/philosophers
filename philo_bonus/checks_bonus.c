@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:31:18 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 12:45:49 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:36:36 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	ph_is_complete(t_philo *philo)
 	return (0);
 }
 
-static int	ph_is_philofull(t_philo *philo)
+/*
+	Checks if the philo has eaten enough meals, returns 1 if it has, 0 otherwise.
+*/
+int	ph_is_philofull(t_philo *philo)
 {
 	sem_wait(philo->counter);
 	if (philo->meals >= philo->dinner->n_meals)
@@ -50,19 +53,14 @@ void	*ph_monitor(void *data)
 	philo = (t_philo *)data;
 	while (1)
 	{
-		if (ph_is_philofull(philo))
-		{
-			sem_post(philo->dinner->status);
-			philo->dinner->completed = 1;
-			sem_post(philo->dinner->status);
-			ph_print_complete(philo->dinner);
-			exit (EXIT_SUCCESS);
-		}
-		else if (ph_gettime() - philo->last_meal > philo->dinner->t_die)
+		if (ph_gettime() - philo->last_meal > philo->dinner->t_die)
 		{
 			ph_print_status(philo->dinner, HAS_DIED, philo->id);
+			philo->dinner->completed = 1;
+			sem_wait(philo->dinner->print);
 			exit (EXIT_FAILURE);
 		}
+		usleep(10);
 	}
 	return (NULL);
 }
