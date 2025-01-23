@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by nicolas           #+#    #+#             */
-/*   Updated: 2025/01/23 14:49:31 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:23:36 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,18 @@ static void	ph_eat_sleep_think(t_philo *philo)
 	sem_wait(philo->dinner->forks);
 	ph_print_status(philo->dinner, TAKEN_FORK, philo->id);
 	ph_print_status(philo->dinner, IS_EATING, philo->id);
+	sem_wait(philo->counter);
 	philo->last_meal = ph_gettime();
 	philo->meals++;
 	if (philo->dinner->n_meals != -1
 		&& philo->meals >= philo->dinner->n_meals)
 	{
+		sem_post(philo->counter);
 		sem_post(philo->dinner->forks);
 		sem_post(philo->dinner->forks);
 		exit(0);
 	}
+	sem_post(philo->counter);
 	ph_sleep(philo->dinner->t_eat);
 	sem_post(philo->dinner->forks);
 	sem_post(philo->dinner->forks);
@@ -60,9 +63,8 @@ void	ph_routine(t_philo *philo)
 	pthread_detach(philo->monitor);
 	if (philo->id % 2 == 0)
 	{
-		ph_print_status(philo->dinner, IS_SLEEPING, philo->id);
-		ph_sleep(philo->dinner->t_sleep);
 		ph_print_status(philo->dinner, IS_THINKING, philo->id);
+		ph_sleep(philo->dinner->t_sleep);
 	}
 	while (1)
 		ph_eat_sleep_think(philo);

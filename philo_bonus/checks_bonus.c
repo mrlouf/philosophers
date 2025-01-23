@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:31:18 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 14:36:36 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:31:42 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,18 @@ void	*ph_monitor(void *data)
 	philo = (t_philo *)data;
 	while (1)
 	{
+		sem_wait(philo->counter);
 		if (ph_gettime() - philo->last_meal > philo->dinner->t_die)
 		{
+			sem_post(philo->counter);
 			ph_print_status(philo->dinner, HAS_DIED, philo->id);
+			sem_wait(philo->dinner->status);
 			philo->dinner->completed = 1;
+			sem_post(philo->dinner->status);
 			sem_wait(philo->dinner->print);
 			exit (EXIT_FAILURE);
 		}
+		sem_post(philo->counter);
 		usleep(10);
 	}
 	return (NULL);
