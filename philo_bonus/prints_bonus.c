@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:29:04 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 10:15:13 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:22:33 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ void	ph_print_complete(t_dinner *dinner)
 */
 void	ph_print_status(t_dinner *dinner, char *str, int id)
 {
+	sem_wait(dinner->status);
+	if (dinner->completed)
+	{
+		sem_post(dinner->status);
+		return ;
+	}
+	sem_post(dinner->status);
 	sem_wait(dinner->print);
 	printf("[%llu] ", ph_gettime() - dinner->start);
 	printf("%d ", id);

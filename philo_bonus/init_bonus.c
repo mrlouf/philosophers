@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:10:48 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 10:19:14 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 11:05:13 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ph_init_philos(t_dinner *dinner)
 		dinner->philos[i].meals = 0;
 		dinner->philos[i].pid = 0;
 		dinner->philos[i].dinner = dinner;
+		dinner->philos[i].monitor = 0;
 	}
 	return (0);
 }

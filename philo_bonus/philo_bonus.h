@@ -6,7 +6,7 @@
 /*   By: nponchon <nponchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:26:30 by nponchon          #+#    #+#             */
-/*   Updated: 2025/01/23 10:16:58 by nponchon         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:23:51 by nponchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	long long		meals;
 	long long		last_meal;
 	pid_t			pid;
+	pthread_t		monitor;
 	t_dinner		*dinner;
 }	t_philo;
 
@@ -72,6 +73,8 @@ int			ph_start_simulation(t_dinner *dinner);
 int			ph_clean_dinner(t_dinner *dinner);
 void		ph_routine(t_philo *philo);
 void		ph_lone_philo(t_philo *philo);
+int			ph_is_complete(t_philo *philo);
+void		*ph_monitor(void *data);
 
 //	UTILS
 time_t		ph_gettime(void);
